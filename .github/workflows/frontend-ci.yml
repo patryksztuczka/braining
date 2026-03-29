@@ -1,0 +1,58 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    paths:
+      - "apps/frontend/**"
+      - "packages/**"
+      - ".github/workflows/frontend-ci.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "turbo.json"
+  push:
+    branches:
+      - master
+    paths:
+      - "apps/frontend/**"
+      - "packages/**"
+      - ".github/workflows/frontend-ci.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "turbo.json"
+
+concurrency:
+  group: frontend-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint frontend
+        run: pnpm --dir apps/frontend lint
+
+      - name: Check frontend formatting
+        run: pnpm --dir apps/frontend format:check
+
+      - name: Typecheck frontend
+        run: pnpm --dir apps/frontend check-types

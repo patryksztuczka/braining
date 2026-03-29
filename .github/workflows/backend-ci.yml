@@ -1,0 +1,58 @@
+name: Backend CI
+
+on:
+  pull_request:
+    paths:
+      - "apps/backend/**"
+      - "packages/**"
+      - ".github/workflows/backend-ci.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "turbo.json"
+  push:
+    branches:
+      - master
+    paths:
+      - "apps/backend/**"
+      - "packages/**"
+      - ".github/workflows/backend-ci.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "turbo.json"
+
+concurrency:
+  group: backend-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint backend
+        run: pnpm --dir apps/backend lint
+
+      - name: Check backend formatting
+        run: pnpm --dir apps/backend format:check
+
+      - name: Typecheck backend
+        run: pnpm --dir apps/backend check-types

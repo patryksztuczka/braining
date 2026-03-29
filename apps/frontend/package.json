@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "check-types": "tsc -b",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md}\"",
+    "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md}\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },

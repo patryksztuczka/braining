@@ -5,6 +5,9 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "check-types": "tsc --noEmit",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md}\"",
+    "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md}\"",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
@@ -12,6 +15,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "@repo/prettier-config": "workspace:*",
     "eslint": "^9.39.4",
     "typescript": "^5.9.3",
     "wrangler": "^4.4.0"
