@@ -8,14 +8,22 @@
     "check-types": "tsc --noEmit",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md}\"",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md}\"",
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:migrate:local": "wrangler d1 migrations apply braining-prod --local",
+    "db:studio": "npx drizzle-kit studio"
   },
   "dependencies": {
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.2",
     "hono": "^4.12.9"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
+    "@types/node": "^24.12.0",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9.39.4",
     "typescript": "^5.9.3",
     "wrangler": "^4.4.0"
