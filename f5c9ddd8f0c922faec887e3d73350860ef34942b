@@ -1,0 +1,51 @@
+apps/frontend/src/components/pages/sign-in.css
+  1c0a917be16cb7cb 1-308
+apps/frontend/src/components/pages/home.tsx
+  acd4213f7f8b5328 1-3
+apps/frontend/src/components/pages/sign-in.tsx
+  1c0a917be16cb7cb 1-86
+apps/frontend/src/components/pages/error.css
+  1c0a917be16cb7cb 1-234
+apps/frontend/src/providers/router.tsx
+  1c0a917be16cb7cb 2,6-17
+  acd4213f7f8b5328 1,3-5,18-22
+apps/frontend/src/App.tsx
+  acd4213f7f8b5328 1,4
+apps/frontend/src/components/pages/error.tsx
+  1c0a917be16cb7cb 1-48
+apps/frontend/src/providers/index.tsx
+  acd4213f7f8b5328 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "f5c9ddd8f0c922faec887e3d73350860ef34942b",
+  "prompts": {
+    "1c0a917be16cb7cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f81c8b8-f2b8-4d67-94a5-abdad41f97dc",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka <patryk.sztuczka00@gmail.com>",
+      "messages": [],
+      "total_additions": 1014,
+      "total_deletions": 319,
+      "accepted_lines": 689,
+      "overriden_lines": 0
+    },
+    "acd4213f7f8b5328": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3cd83330-6e72-4a40-97e7-b6679be72cbf",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka <patryk.sztuczka00@gmail.com>",
+      "messages": [],
+      "total_additions": 26,
+      "total_deletions": 101,
+      "accepted_lines": 22,
+      "overriden_lines": 0
+    }
+  }
+}
