@@ -1,0 +1,25 @@
+apps/frontend/src/components/pages/dashboard.tsx
+  fa55463d71856b13 300
+apps/frontend/src/components/layouts/dashboard-layout.tsx
+  fa55463d71856b13 65,132,159-162
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "b24ab0abbfa2c1b9e1a2593f1d5a68096312eefb",
+  "prompts": {
+    "fa55463d71856b13": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f89f171-54bd-4573-adee-cc4adac4b287",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka <patryk.sztuczka00@gmail.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 7,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  }
+}
