@@ -159,7 +159,7 @@
   * {
     @apply border-border outline-ring/50;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+    scrollbar-color: color-mix(in srgb, var(--foreground) 12%, transparent) transparent;
   }
 
   *::-webkit-scrollbar {
@@ -172,12 +172,12 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, var(--foreground) 12%, transparent);
     border-radius: 3px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: color-mix(in srgb, var(--foreground) 20%, transparent);
   }
 
   *::-webkit-scrollbar-corner {

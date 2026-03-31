@@ -79,7 +79,7 @@ function Sidebar() {
               className={`w-full flex items-center gap-2.5 px-2.5 h-8 rounded-lg text-[13px] font-medium font-dm transition-all duration-150 ${
                 item.active
                   ? 'bg-[var(--accent)]/15 text-[var(--accent)]'
-                  : 'text-white/40 hover:bg-white/[0.04] hover:text-white/70'
+                  : 'text-foreground/60 hover:bg-foreground/[0.06] hover:text-foreground'
               }`}
             >
               <item.icon className="size-[16px]" />
@@ -90,14 +90,14 @@ function Sidebar() {
 
         {/* Teams section */}
         <div className="mt-7">
-          <span className="px-2.5 text-[10px] font-semibold uppercase tracking-[1.5px] text-white/25">
+          <span className="px-2.5 text-[10px] font-semibold uppercase tracking-[1.5px] text-foreground/40">
             Teams
           </span>
           <div className="mt-2 space-y-0.5">
             {TEAMS.map((team) => (
               <button
                 key={team.name}
-                className="w-full flex items-center gap-2.5 px-2.5 h-8 rounded-lg text-[13px] font-dm text-white/40 hover:bg-white/[0.04] hover:text-white/70 transition-all duration-150"
+                className="w-full flex items-center gap-2.5 px-2.5 h-8 rounded-lg text-[13px] font-dm text-foreground/60 hover:bg-foreground/[0.06] hover:text-foreground transition-all duration-150"
               >
                 <span
                   className="size-2 rounded-full shrink-0"
@@ -118,29 +118,29 @@ function Header() {
   return (
     <div className="h-[56px] shrink-0 flex items-center justify-end px-5">
       <div className="flex items-center gap-1">
-        <button className="size-8 rounded-lg flex items-center justify-center text-white/35 hover:bg-white/[0.05] hover:text-white/60 transition-all">
+        <button className="size-8 rounded-lg flex items-center justify-center text-foreground/50 hover:bg-foreground/[0.08] hover:text-foreground/80 transition-all">
           <Bell className="size-[16px]" />
         </button>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="ml-1 rounded-full outline-none cursor-pointer hover:ring-2 hover:ring-white/10 transition-all">
+          <DropdownMenuTrigger className="ml-1 rounded-full outline-none cursor-pointer hover:ring-2 hover:ring-foreground/15 transition-all">
             <Avatar name="Patryk Sztuczka" size={30} />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
             sideOffset={8}
-            className="min-w-[180px] bg-popover/95 backdrop-blur-xl border-white/[0.08] rounded-xl p-1 shadow-[0_16px_48px_rgba(0,0,0,0.4)]"
+            className="min-w-[180px] bg-popover/95 backdrop-blur-xl border-foreground/[0.1] rounded-xl p-1 shadow-[0_16px_48px_rgba(0,0,0,0.4)]"
           >
             <div className="px-2.5 py-2 mb-0.5">
-              <p className="text-[13px] font-medium text-white/85 font-dm">Patryk Sztuczka</p>
-              <p className="text-[11px] text-white/35 font-dm">patryk@braining.app</p>
+              <p className="text-[13px] font-medium text-heading font-dm">Patryk Sztuczka</p>
+              <p className="text-[11px] text-foreground/60 font-dm">patryk@braining.app</p>
             </div>
-            <DropdownMenuSeparator className="bg-white/[0.06]" />
-            <DropdownMenuItem className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[13px] font-dm text-white/50 cursor-pointer hover:bg-white/[0.05] hover:text-white/80 focus:bg-white/[0.05] focus:text-white/80">
+            <DropdownMenuSeparator className="bg-foreground/[0.08]" />
+            <DropdownMenuItem className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[13px] font-dm text-foreground/70 cursor-pointer hover:bg-foreground/[0.08] hover:text-heading focus:bg-foreground/[0.08] focus:text-heading">
               <Settings className="size-3.5" />
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[13px] font-dm text-white/50 cursor-pointer hover:bg-white/[0.05] hover:text-white/80 focus:bg-white/[0.05] focus:text-white/80">
+            <DropdownMenuItem className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[13px] font-dm text-foreground/70 cursor-pointer hover:bg-foreground/[0.08] hover:text-heading focus:bg-foreground/[0.08] focus:text-heading">
               <LogOut className="size-3.5" />
               Log out
             </DropdownMenuItem>
