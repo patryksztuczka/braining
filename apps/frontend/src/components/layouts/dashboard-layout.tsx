@@ -62,7 +62,7 @@ function Sidebar() {
     <aside className="w-[220px] shrink-0 flex flex-col pt-1 z-30 motion-safe:animate-slide-in-left">
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-5 h-[56px] shrink-0">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent)] to-[#818cf8] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent)] to-[var(--accent-border)] flex items-center justify-center">
           <Brain className="size-[18px] text-white" />
         </div>
         <span className="text-[15px] font-semibold tracking-[-0.3px] text-heading font-dm">
@@ -129,7 +129,7 @@ function Header() {
           <DropdownMenuContent
             align="end"
             sideOffset={8}
-            className="min-w-[180px] bg-[#1a1b28]/95 backdrop-blur-xl border-white/[0.08] rounded-xl p-1 shadow-[0_16px_48px_rgba(0,0,0,0.4)]"
+            className="min-w-[180px] bg-popover/95 backdrop-blur-xl border-white/[0.08] rounded-xl p-1 shadow-[0_16px_48px_rgba(0,0,0,0.4)]"
           >
             <div className="px-2.5 py-2 mb-0.5">
               <p className="text-[13px] font-medium text-white/85 font-dm">Patryk Sztuczka</p>
@@ -156,10 +156,10 @@ export function DashboardLayout() {
     <div className="flex h-svh w-screen ml-[calc(50%_-_50vw)] font-dm text-left border-none overflow-hidden p-3 gap-2">
       {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[#0d0e18]" />
-        <div className="absolute w-[1000px] h-[1000px] top-[-300px] right-[-200px] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.12)_0%,transparent_65%)]" />
-        <div className="absolute w-[800px] h-[800px] bottom-[-200px] left-[100px] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.08)_0%,transparent_65%)]" />
-        <div className="absolute w-[600px] h-[600px] top-[30%] left-[40%] rounded-full bg-[radial-gradient(circle,rgba(236,72,153,0.04)_0%,transparent_65%)]" />
+        <div className="absolute inset-0 bg-surface" />
+        <div className="absolute w-[1000px] h-[1000px] top-[-300px] right-[-200px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.12]" />
+        <div className="absolute w-[800px] h-[800px] bottom-[-200px] left-[100px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.06]" />
+        <div className="absolute w-[600px] h-[600px] top-[30%] left-[40%] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.04]" />
         <div
           className="absolute inset-0 opacity-[0.025] mix-blend-overlay bg-[length:128px_128px]"
           style={{ backgroundImage: NOISE_BG }}

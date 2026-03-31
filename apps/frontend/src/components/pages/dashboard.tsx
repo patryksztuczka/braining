@@ -297,7 +297,7 @@ export function Component() {
           </div>
           <Button
             size="sm"
-            className="gap-1.5 bg-[var(--accent)]/15 text-[var(--accent)] hover:bg-[var(--accent)]/25 border-[var(--accent)]/20"
+            className="gap-1.5 rounded-[10px] bg-[var(--accent)]/15 text-[var(--accent)] hover:bg-[var(--accent)]/25 border-[var(--accent)]/20"
           >
             <Plus className="size-3" />
             Create task
