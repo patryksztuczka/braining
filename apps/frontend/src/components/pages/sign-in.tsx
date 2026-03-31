@@ -1,5 +1,6 @@
+import { Button } from '@/components/ui/button';
+import { NOISE_BG } from '@/lib/constants';
 import heroImage from '../../assets/hero.webp';
-import './sign-in.css';
 
 function GitHubIcon() {
   return (
@@ -34,16 +35,18 @@ function BrainIcon() {
 
 export function Component() {
   return (
-    <div className="signin-page">
+    <div className="flex min-h-svh bg-surface font-dm overflow-hidden w-screen ml-[calc(50%_-_50vw)] text-left border-none max-[900px]:flex-col">
       {/* Left decorative panel */}
-      <div className="signin-panel">
-        <div className="signin-panel-bg">
-          <img src={heroImage} alt="" className="signin-panel-img" />
-          <div className="signin-panel-overlay" />
+      <div className="relative flex-[0_0_50%] max-w-[50%] flex items-end p-8 overflow-hidden max-[900px]:flex-none max-[900px]:max-w-full max-[900px]:min-h-[300px] max-[900px]:p-5">
+        <div className="absolute inset-4 rounded-3xl overflow-hidden bg-[#0a0a12] max-[900px]:inset-3 max-[900px]:rounded-[20px]">
+          <img src={heroImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.15)_50%,rgba(0,0,0,0.05)_100%)]" />
         </div>
-        <div className="signin-panel-content">
-          <p className="signin-panel-label">A space for your mind</p>
-          <h2 className="signin-panel-heading">
+        <div className="relative z-[2] p-6 text-white/[0.92] motion-safe:animate-panel-fade-up motion-safe:[animation-delay:0.2s]">
+          <p className="text-xs font-medium tracking-[2.5px] uppercase text-white/55 mb-6">
+            A space for your mind
+          </p>
+          <h2 className="font-serif font-normal italic text-[clamp(40px,5vw,64px)] leading-none tracking-[-1px] m-0 mb-5 text-white max-[900px]:text-4xl">
             Think
             <br />
             Deeper,
@@ -52,32 +55,45 @@ export function Component() {
             <br />
             Faster
           </h2>
-          <p className="signin-panel-sub">
+          <p className="text-[15px] leading-[1.55] text-white/50 max-w-[320px]">
             Capture thoughts, connect ideas, and let your knowledge grow organically.
           </p>
         </div>
       </div>
 
       {/* Right sign-in area */}
-      <div className="signin-form-area">
-        <div className="signin-ambient-glow" />
+      <div className="relative flex-1 flex flex-col px-12 py-10 min-h-svh overflow-hidden max-[900px]:[min-height:auto] max-[900px]:px-6 max-[900px]:pt-8 max-[900px]:pb-10">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute w-[560px] h-[560px] top-1/2 left-1/2 [transform:translate(-50%,-50%)] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_70%)] opacity-[0.08] animate-glow-pulse" />
+          <div
+            className="absolute inset-0 opacity-[0.08] mix-blend-overlay bg-[length:128px_128px]"
+            style={{ backgroundImage: NOISE_BG }}
+          />
+        </div>
 
-        <div className="signin-form-top">
-          <div className="signin-brand">
+        <div className="flex justify-end max-[900px]:justify-center max-[900px]:mb-2">
+          <div className="flex items-center gap-2.5 text-heading font-dm text-lg font-medium tracking-[-0.3px] motion-safe:animate-fade-in motion-safe:[animation-delay:0.1s]">
             <BrainIcon />
             <span>braining</span>
           </div>
         </div>
 
-        <div className="signin-form-center">
-          <div className="signin-form-inner">
-            <h1 className="signin-heading">Welcome back</h1>
-            <p className="signin-subtitle">Sign in to continue to your workspace</p>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-full max-w-[360px] flex flex-col items-center text-center">
+            <h1 className="font-serif font-normal text-[42px] tracking-[-0.8px] leading-[1.1] text-heading m-0 mb-3 motion-safe:animate-fade-in motion-safe:[animation-delay:0.25s]">
+              Welcome back
+            </h1>
+            <p className="text-[15px] text-text mb-12 leading-[1.5] max-[900px]:mb-9 motion-safe:animate-fade-in motion-safe:[animation-delay:0.35s]">
+              Sign in to continue to your workspace
+            </p>
 
-            <button type="button" className="signin-github-btn">
+            <Button
+              size="lg"
+              className="w-full gap-3 rounded-[10px] py-2.5 text-[15px] shadow-[0_1px_2px_rgba(0,0,0,0.06)] motion-safe:animate-fade-in motion-safe:[animation-delay:0.45s]"
+            >
               <GitHubIcon />
               <span>Sign in with GitHub</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
