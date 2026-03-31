@@ -16,6 +16,8 @@
   --animate-error-fade-in: error-fade-in 0.6s cubic-bezier(0.33, 1, 0.68, 1) both;
   --animate-panel-fade-up: panel-fade-up 0.8s cubic-bezier(0.33, 1, 0.68, 1) both;
   --animate-fade-in: fade-in 0.6s cubic-bezier(0.33, 1, 0.68, 1) both;
+  --animate-slide-in-left: slide-in-left 0.5s cubic-bezier(0.33, 1, 0.68, 1) both;
+  --animate-stagger-in: stagger-in 0.4s cubic-bezier(0.33, 1, 0.68, 1) both;
 }
 
 @theme inline {
@@ -156,6 +158,30 @@
   }
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
   }
 }
 
@@ -218,6 +244,28 @@
   from {
     opacity: 0;
     transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
