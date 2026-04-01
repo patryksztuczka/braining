@@ -6,6 +6,6 @@ export default [
     files: ['**/*.{js,ts}'],
   },
   {
-    ignores: ['.wrangler/**', 'worker-configuration.d.ts'],
+    ignores: ['.wrangler/**'],
   },
 ];

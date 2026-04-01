@@ -19,6 +19,7 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { Outlet } from 'react-router';
+import { signOut } from '@/lib/auth-client';
 
 const NAV_ITEMS = [
   { icon: Home, label: 'Dashboard', active: false },
@@ -40,7 +41,7 @@ function Avatar({ name, size = 32 }: { name: string; size?: number }) {
   const idx = name.charCodeAt(0) % colors.length;
   return (
     <div
-      className="rounded-full flex items-center justify-center text-white font-medium font-dm shrink-0"
+      className="font-dm flex shrink-0 items-center justify-center rounded-full font-medium text-white"
       style={{
         width: size,
         height: size,
@@ -59,24 +60,24 @@ function Avatar({ name, size = 32 }: { name: string; size?: number }) {
 
 function Sidebar() {
   return (
-    <aside className="w-[220px] shrink-0 flex flex-col pt-1 z-30 motion-safe:animate-slide-in-left">
+    <aside className="motion-safe:animate-slide-in-left z-30 flex w-[220px] shrink-0 flex-col pt-1">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-5 h-[56px] shrink-0">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent)] to-[var(--accent-border)] flex items-center justify-center">
+      <div className="flex h-[56px] shrink-0 items-center gap-2.5 px-5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--accent)] to-[var(--accent-border)]">
           <Brain className="size-[18px] text-white" />
         </div>
-        <span className="text-[15px] font-semibold tracking-[-0.3px] text-heading font-dm">
+        <span className="text-heading font-dm text-[15px] font-semibold tracking-[-0.3px]">
           braining
         </span>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 pt-3 overflow-y-auto">
+      <nav className="flex-1 overflow-y-auto px-3 pt-3">
         <div className="space-y-0.5">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.label}
-              className={`w-full flex items-center gap-2.5 px-2.5 h-8 rounded-lg text-[13px] font-medium font-dm transition-all duration-150 ${
+              className={`font-dm flex h-8 w-full items-center gap-2.5 rounded-lg px-2.5 text-[13px] font-medium transition-all duration-150 ${
                 item.active
                   ? 'bg-[var(--accent)]/15 text-[var(--accent)]'
                   : 'text-foreground/60 hover:bg-foreground/[0.06] hover:text-foreground'
@@ -90,21 +91,18 @@ function Sidebar() {
 
         {/* Teams section */}
         <div className="mt-7">
-          <span className="px-2.5 text-[10px] font-semibold uppercase tracking-[1.5px] text-foreground/40">
+          <span className="text-foreground/40 px-2.5 text-[10px] font-semibold tracking-[1.5px] uppercase">
             Teams
           </span>
           <div className="mt-2 space-y-0.5">
             {TEAMS.map((team) => (
               <button
                 key={team.name}
-                className="w-full flex items-center gap-2.5 px-2.5 h-8 rounded-lg text-[13px] font-dm text-foreground/60 hover:bg-foreground/[0.06] hover:text-foreground transition-all duration-150"
+                className="font-dm text-foreground/60 hover:bg-foreground/[0.06] hover:text-foreground flex h-8 w-full items-center gap-2.5 rounded-lg px-2.5 text-[13px] transition-all duration-150"
               >
-                <span
-                  className="size-2 rounded-full shrink-0"
-                  style={{ background: team.color }}
-                />
+                <span className="size-2 shrink-0 rounded-full" style={{ background: team.color }} />
                 {team.name}
-                <ChevronDown className="size-3 ml-auto opacity-40" />
+                <ChevronDown className="ml-auto size-3 opacity-40" />
               </button>
             ))}
           </div>
@@ -116,31 +114,34 @@ function Sidebar() {
 
 function Header() {
   return (
-    <div className="h-[56px] shrink-0 flex items-center justify-end px-5">
+    <div className="flex h-[56px] shrink-0 items-center justify-end px-5">
       <div className="flex items-center gap-1">
-        <button className="size-8 rounded-lg flex items-center justify-center text-foreground/50 hover:bg-foreground/[0.08] hover:text-foreground/80 transition-all">
+        <button className="text-foreground/50 hover:bg-foreground/[0.08] hover:text-foreground/80 flex size-8 items-center justify-center rounded-lg transition-all">
           <Bell className="size-[16px]" />
         </button>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="ml-1 rounded-full outline-none cursor-pointer hover:ring-2 hover:ring-foreground/15 transition-all">
+          <DropdownMenuTrigger className="hover:ring-foreground/15 ml-1 cursor-pointer rounded-full transition-all outline-none hover:ring-2">
             <Avatar name="Patryk Sztuczka" size={30} />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
             sideOffset={8}
-            className="min-w-[180px] bg-popover/95 backdrop-blur-xl border-foreground/[0.1] rounded-xl p-1 shadow-[0_16px_48px_rgba(0,0,0,0.4)]"
+            className="bg-popover/95 border-foreground/[0.1] min-w-[180px] rounded-xl p-1 shadow-[0_16px_48px_rgba(0,0,0,0.4)] backdrop-blur-xl"
           >
-            <div className="px-2.5 py-2 mb-0.5">
-              <p className="text-[13px] font-medium text-heading font-dm">Patryk Sztuczka</p>
-              <p className="text-[11px] text-foreground/60 font-dm">patryk@braining.app</p>
+            <div className="mb-0.5 px-2.5 py-2">
+              <p className="text-heading font-dm text-[13px] font-medium">Patryk Sztuczka</p>
+              <p className="text-foreground/60 font-dm text-[11px]">patryk@braining.app</p>
             </div>
             <DropdownMenuSeparator className="bg-foreground/[0.08]" />
-            <DropdownMenuItem className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[13px] font-dm text-foreground/70 cursor-pointer hover:bg-foreground/[0.08] hover:text-heading focus:bg-foreground/[0.08] focus:text-heading">
+            <DropdownMenuItem className="font-dm text-foreground/70 hover:bg-foreground/[0.08] hover:text-heading focus:bg-foreground/[0.08] focus:text-heading flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-1.5 text-[13px]">
               <Settings className="size-3.5" />
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[13px] font-dm text-foreground/70 cursor-pointer hover:bg-foreground/[0.08] hover:text-heading focus:bg-foreground/[0.08] focus:text-heading">
+            <DropdownMenuItem
+              className="font-dm text-foreground/70 hover:bg-foreground/[0.08] hover:text-heading focus:bg-foreground/[0.08] focus:text-heading flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-1.5 text-[13px]"
+              onClick={async () => await signOut()}
+            >
               <LogOut className="size-3.5" />
               Log out
             </DropdownMenuItem>
@@ -153,15 +154,15 @@ function Header() {
 
 export function DashboardLayout() {
   return (
-    <div className="flex h-svh w-screen ml-[calc(50%_-_50vw)] font-dm text-left border-none overflow-hidden p-3 gap-2">
+    <div className="font-dm ml-[calc(50%_-_50vw)] flex h-svh w-screen gap-2 overflow-hidden border-none p-3 text-left">
       {/* Background effects */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-surface" />
-        <div className="absolute w-[1000px] h-[1000px] top-[-300px] right-[-200px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.12]" />
-        <div className="absolute w-[800px] h-[800px] bottom-[-200px] left-[100px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.06]" />
-        <div className="absolute w-[600px] h-[600px] top-[30%] left-[40%] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.04]" />
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="bg-surface absolute inset-0" />
+        <div className="absolute top-[-300px] right-[-200px] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.12]" />
+        <div className="absolute bottom-[-200px] left-[100px] h-[800px] w-[800px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.06]" />
+        <div className="absolute top-[30%] left-[40%] h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.04]" />
         <div
-          className="absolute inset-0 opacity-[0.025] mix-blend-overlay bg-[length:128px_128px]"
+          className="absolute inset-0 bg-[length:128px_128px] opacity-[0.025] mix-blend-overlay"
           style={{ backgroundImage: NOISE_BG }}
         />
       </div>
@@ -171,9 +172,9 @@ export function DashboardLayout() {
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 flex flex-col relative z-10 overflow-hidden">
+      <div className="relative z-10 flex flex-1 flex-col overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-hidden flex flex-col">
+        <main className="flex flex-1 flex-col overflow-hidden">
           <Outlet />
         </main>
       </div>

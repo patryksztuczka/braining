@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f8621070-a163-4986-9e2d-ebf7876b5739",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ab16d9d1-cad3-4aa5-b20e-52047a10e0e9",
+  "prevId": "f8621070-a163-4986-9e2d-ebf7876b5739",
   "tables": {
-    "account": {
-      "name": "account",
+    "accounts": {
+      "name": "accounts",
       "columns": {
         "id": {
           "name": "id",
@@ -110,10 +110,10 @@
         }
       },
       "foreignKeys": {
-        "account_user_id_user_id_fk": {
-          "name": "account_user_id_user_id_fk",
-          "tableFrom": "account",
-          "tableTo": "user",
+        "accounts_user_id_users_id_fk": {
+          "name": "accounts_user_id_users_id_fk",
+          "tableFrom": "accounts",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -128,8 +128,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "session": {
-      "name": "session",
+    "sessions": {
+      "name": "sessions",
       "columns": {
         "id": {
           "name": "id",
@@ -190,8 +190,8 @@
         }
       },
       "indexes": {
-        "session_token_unique": {
-          "name": "session_token_unique",
+        "sessions_token_unique": {
+          "name": "sessions_token_unique",
           "columns": [
             "token"
           ],
@@ -206,10 +206,10 @@
         }
       },
       "foreignKeys": {
-        "session_user_id_user_id_fk": {
-          "name": "session_user_id_user_id_fk",
-          "tableFrom": "session",
-          "tableTo": "user",
+        "sessions_user_id_users_id_fk": {
+          "name": "sessions_user_id_users_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -224,8 +224,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "user": {
-      "name": "user",
+    "users": {
+      "name": "users",
       "columns": {
         "id": {
           "name": "id",
@@ -281,8 +281,8 @@
         }
       },
       "indexes": {
-        "user_email_unique": {
-          "name": "user_email_unique",
+        "users_email_unique": {
+          "name": "users_email_unique",
           "columns": [
             "email"
           ],
@@ -294,8 +294,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "verification": {
-      "name": "verification",
+    "verifications": {
+      "name": "verifications",
       "columns": {
         "id": {
           "name": "id",
@@ -361,7 +361,12 @@
   "enums": {},
   "_meta": {
     "schemas": {},
-    "tables": {},
+    "tables": {
+      "\"account\"": "\"accounts\"",
+      "\"session\"": "\"sessions\"",
+      "\"user\"": "\"users\"",
+      "\"verification\"": "\"verifications\""
+    },
     "columns": {}
   },
   "internal": {

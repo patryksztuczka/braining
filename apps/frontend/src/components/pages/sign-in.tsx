@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { NOISE_BG } from '@/lib/constants';
 import heroImage from '../../assets/hero.webp';
+import { signIn } from '@/lib/auth-client';
 
 function GitHubIcon() {
   return (
@@ -35,18 +36,18 @@ function BrainIcon() {
 
 export function Component() {
   return (
-    <div className="flex min-h-svh bg-surface font-dm overflow-hidden w-screen ml-[calc(50%_-_50vw)] text-left border-none max-[900px]:flex-col">
+    <div className="bg-surface font-dm ml-[calc(50%_-_50vw)] flex min-h-svh w-screen overflow-hidden border-none text-left max-[900px]:flex-col">
       {/* Left decorative panel */}
-      <div className="relative flex-[0_0_50%] max-w-[50%] flex items-end p-8 overflow-hidden max-[900px]:flex-none max-[900px]:max-w-full max-[900px]:min-h-[300px] max-[900px]:p-5">
-        <div className="absolute inset-4 rounded-3xl overflow-hidden bg-[#0a0a12] max-[900px]:inset-3 max-[900px]:rounded-[20px]">
-          <img src={heroImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="relative flex max-w-[50%] flex-[0_0_50%] items-end overflow-hidden p-8 max-[900px]:min-h-[300px] max-[900px]:max-w-full max-[900px]:flex-none max-[900px]:p-5">
+        <div className="absolute inset-4 overflow-hidden rounded-3xl bg-[#0a0a12] max-[900px]:inset-3 max-[900px]:rounded-[20px]">
+          <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.15)_50%,rgba(0,0,0,0.05)_100%)]" />
         </div>
-        <div className="relative z-[2] p-6 text-white/[0.92] motion-safe:animate-panel-fade-up motion-safe:[animation-delay:0.2s]">
-          <p className="text-xs font-medium tracking-[2.5px] uppercase text-white/55 mb-6">
+        <div className="motion-safe:animate-panel-fade-up relative z-[2] p-6 text-white/[0.92] motion-safe:[animation-delay:0.2s]">
+          <p className="mb-6 text-xs font-medium tracking-[2.5px] text-white/55 uppercase">
             A space for your mind
           </p>
-          <h2 className="font-serif font-normal italic text-[clamp(40px,5vw,64px)] leading-none tracking-[-1px] m-0 mb-5 text-white max-[900px]:text-4xl">
+          <h2 className="m-0 mb-5 font-serif text-[clamp(40px,5vw,64px)] leading-none font-normal tracking-[-1px] text-white italic max-[900px]:text-4xl">
             Think
             <br />
             Deeper,
@@ -55,41 +56,46 @@ export function Component() {
             <br />
             Faster
           </h2>
-          <p className="text-[15px] leading-[1.55] text-white/50 max-w-[320px]">
+          <p className="max-w-[320px] text-[15px] leading-[1.55] text-white/50">
             Capture thoughts, connect ideas, and let your knowledge grow organically.
           </p>
         </div>
       </div>
 
       {/* Right sign-in area */}
-      <div className="relative flex-1 flex flex-col px-12 py-10 min-h-svh overflow-hidden max-[900px]:[min-height:auto] max-[900px]:px-6 max-[900px]:pt-8 max-[900px]:pb-10">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute w-[560px] h-[560px] top-1/2 left-1/2 [transform:translate(-50%,-50%)] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_70%)] opacity-[0.08] animate-glow-pulse" />
+      <div className="relative flex min-h-svh flex-1 flex-col overflow-hidden px-12 py-10 max-[900px]:[min-height:auto] max-[900px]:px-6 max-[900px]:pt-8 max-[900px]:pb-10">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="animate-glow-pulse absolute top-1/2 left-1/2 h-[560px] w-[560px] [transform:translate(-50%,-50%)] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_70%)] opacity-[0.08]" />
           <div
-            className="absolute inset-0 opacity-[0.08] mix-blend-overlay bg-[length:128px_128px]"
+            className="absolute inset-0 bg-[length:128px_128px] opacity-[0.08] mix-blend-overlay"
             style={{ backgroundImage: NOISE_BG }}
           />
         </div>
 
-        <div className="flex justify-end max-[900px]:justify-center max-[900px]:mb-2">
-          <div className="flex items-center gap-2.5 text-heading font-dm text-lg font-medium tracking-[-0.3px] motion-safe:animate-fade-in motion-safe:[animation-delay:0.1s]">
+        <div className="flex justify-end max-[900px]:mb-2 max-[900px]:justify-center">
+          <div className="text-heading font-dm motion-safe:animate-fade-in flex items-center gap-2.5 text-lg font-medium tracking-[-0.3px] motion-safe:[animation-delay:0.1s]">
             <BrainIcon />
             <span>braining</span>
           </div>
         </div>
 
-        <div className="flex-1 flex items-center justify-center">
-          <div className="w-full max-w-[360px] flex flex-col items-center text-center">
-            <h1 className="font-serif font-normal text-[42px] tracking-[-0.8px] leading-[1.1] text-heading m-0 mb-3 motion-safe:animate-fade-in motion-safe:[animation-delay:0.25s]">
+        <div className="flex flex-1 items-center justify-center">
+          <div className="flex w-full max-w-[360px] flex-col items-center text-center">
+            <h1 className="text-heading motion-safe:animate-fade-in m-0 mb-3 font-serif text-[42px] leading-[1.1] font-normal tracking-[-0.8px] motion-safe:[animation-delay:0.25s]">
               Welcome back
             </h1>
-            <p className="text-[15px] text-text mb-12 leading-[1.5] max-[900px]:mb-9 motion-safe:animate-fade-in motion-safe:[animation-delay:0.35s]">
+            <p className="text-text motion-safe:animate-fade-in mb-12 text-[15px] leading-[1.5] motion-safe:[animation-delay:0.35s] max-[900px]:mb-9">
               Sign in to continue to your workspace
             </p>
 
             <Button
               size="lg"
-              className="w-full gap-3 rounded-[10px] py-2.5 text-[15px] shadow-[0_1px_2px_rgba(0,0,0,0.06)] motion-safe:animate-fade-in motion-safe:[animation-delay:0.45s]"
+              className="motion-safe:animate-fade-in w-full gap-3 rounded-[10px] py-2.5 text-[15px] shadow-[0_1px_2px_rgba(0,0,0,0.06)] motion-safe:[animation-delay:0.45s]"
+              onClick={async () => {
+                await signIn.social({
+                  provider: 'github',
+                });
+              }}
             >
               <GitHubIcon />
               <span>Sign in with GitHub</span>
