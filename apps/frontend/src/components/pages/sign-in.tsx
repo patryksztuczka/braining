@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { NOISE_BG } from '@/lib/constants';
 import heroImage from '../../assets/hero.webp';
 import { signIn } from '@/lib/auth-client';
+import { BrainIcon } from 'lucide-react';
 
 function GitHubIcon() {
   return (
@@ -11,30 +12,9 @@ function GitHubIcon() {
   );
 }
 
-function BrainIcon() {
-  return (
-    <svg
-      width="28"
-      height="28"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M12 2a5 5 0 0 1 4.672 3.23A4 4 0 0 1 20 9a4 4 0 0 1-1.318 2.973A3.5 3.5 0 0 1 20 14.5a3.5 3.5 0 0 1-2.39 3.319A4 4 0 0 1 14 21h-4a4 4 0 0 1-3.61-3.181A3.5 3.5 0 0 1 4 14.5a3.5 3.5 0 0 1 1.318-2.527A4 4 0 0 1 4 9a4 4 0 0 1 3.328-3.77A5 5 0 0 1 12 2z" />
-      <path d="M12 2v20" />
-      <path d="M8 6.5a3 3 0 0 0-1 2.2" />
-      <path d="M16 6.5a3 3 0 0 1 1 2.2" />
-      <path d="M7.5 13a2.5 2.5 0 0 0-.5 1.5" />
-      <path d="M16.5 13a2.5 2.5 0 0 1 .5 1.5" />
-    </svg>
-  );
-}
+export function SignInPage() {
+  const callbackURL = new URL('/', window.location.origin).toString();
 
-export function Component() {
   return (
     <div className="bg-surface font-dm ml-[calc(50%_-_50vw)] flex min-h-svh w-screen overflow-hidden border-none text-left max-[900px]:flex-col">
       {/* Left decorative panel */}
@@ -94,6 +74,7 @@ export function Component() {
               onClick={async () => {
                 await signIn.social({
                   provider: 'github',
+                  callbackURL,
                 });
               }}
             >
