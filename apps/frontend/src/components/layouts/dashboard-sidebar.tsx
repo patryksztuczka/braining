@@ -19,8 +19,8 @@ export function DashboardSidebar() {
   return (
     <aside className="motion-safe:animate-slide-in-left z-30 flex w-[220px] shrink-0 flex-col pt-1">
       <div className="flex h-[56px] shrink-0 items-center gap-2.5 px-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--accent)] to-[var(--accent-border)]">
-          <Brain className="size-[18px] text-white" />
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-(--accent) to-(--accent-border)">
+          <Brain className="size-4 text-white" />
         </div>
         <span className="text-heading font-dm text-[15px] font-semibold tracking-[-0.3px]">
           braining
@@ -52,7 +52,7 @@ export function DashboardSidebar() {
             {TEAMS.map((team) => (
               <button
                 key={team.name}
-                className="font-dm text-foreground/60 hover:bg-foreground/[0.06] hover:text-foreground flex h-8 w-full items-center gap-2.5 rounded-lg px-2.5 text-[13px] transition-all duration-150"
+                className="font-dm text-foreground/60 hover:bg-foreground/6 hover:text-foreground flex h-8 w-full items-center gap-2.5 rounded-lg px-2.5 text-[13px] transition-all duration-150"
               >
                 <span className="size-2 shrink-0 rounded-full" style={{ background: team.color }} />
                 {team.name}

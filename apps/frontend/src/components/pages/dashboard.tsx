@@ -193,7 +193,7 @@ function TaskCard({ task, index }: { task: KanbanTask; index: number }) {
 
   return (
     <div
-      className="group motion-safe:animate-stagger-in relative cursor-pointer rounded-xl border border-white/[0.07] bg-white/[0.04] p-3.5 backdrop-blur-sm transition-all duration-200 hover:border-white/[0.12] hover:bg-white/[0.07] hover:shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
+      className="group motion-safe:animate-stagger-in relative cursor-pointer rounded-xl border border-white/[0.07] bg-white/4 p-3.5 backdrop-blur-sm transition-all duration-200 hover:border-white/12 hover:bg-white/[0.07] hover:shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
       style={{ animationDelay: `${index * 60 + 200}ms` }}
     >
       {/* Top row: ID + priority + more */}
@@ -204,7 +204,7 @@ function TaskCard({ task, index }: { task: KanbanTask; index: number }) {
             <span className={`size-1.5 rounded-full ${priority.dot}`} />
             <span className="text-[10px] text-white/35">{priority.label}</span>
           </div>
-          <button className="flex size-5 items-center justify-center rounded opacity-0 transition-opacity group-hover:opacity-60 hover:!opacity-100">
+          <button className="flex size-5 items-center justify-center rounded opacity-0 transition-opacity group-hover:opacity-60 hover:opacity-100!">
             <MoreHorizontal className="size-3" />
           </button>
         </div>
@@ -250,7 +250,7 @@ function KanbanColumn({ column, colIndex }: { column: Column; colIndex: number }
           </span>
           <span className="ml-0.5 font-mono text-[11px] text-white/25">{column.tasks.length}</span>
         </div>
-        <button className="flex size-5 items-center justify-center rounded text-white/25 transition-all hover:bg-white/[0.05] hover:text-white/60">
+        <button className="flex size-5 items-center justify-center rounded text-white/25 transition-all hover:bg-white/5 hover:text-white/60">
           <Plus className="size-3.5" />
         </button>
       </div>
@@ -262,7 +262,7 @@ function KanbanColumn({ column, colIndex }: { column: Column; colIndex: number }
         ))}
 
         {/* Add card placeholder */}
-        <button className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-white/[0.06] p-3 text-[12px] text-white/20 transition-all hover:border-white/[0.1] hover:bg-white/[0.02] hover:text-white/40">
+        <button className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-white/6 p-3 text-[12px] text-white/20 transition-all hover:border-white/10 hover:bg-white/2 hover:text-white/40">
           <Plus className="size-3" />
           Add task
         </button>
@@ -295,7 +295,7 @@ export function DashboardPage() {
           </div>
           <Button
             size="sm"
-            className="gap-1.5 rounded-[10px] border-[var(--accent)]/20 bg-[var(--accent)]/15 text-[var(--accent)] hover:bg-[var(--accent)]/25"
+            className="gap-1.5 rounded-[10px] border-(--accent)/20 bg-(--accent)/15 text-(--accent) hover:bg-(--accent)/25"
           >
             <Plus className="size-3" />
             Create task
@@ -310,19 +310,19 @@ export function DashboardPage() {
           <input
             type="text"
             placeholder="Search tasks"
-            className="font-dm text-heading h-7 w-full rounded-lg border border-white/[0.05] bg-white/[0.04] pr-3 pl-7 text-[12px] transition-all placeholder:text-white/25 focus:border-[var(--accent)]/20 focus:outline-none"
+            className="font-dm text-heading h-7 w-full rounded-lg border border-white/5 bg-white/4 pr-3 pl-7 text-[12px] transition-all placeholder:text-white/25 focus:border-(--accent)/20 focus:outline-none"
           />
         </div>
         <div className="ml-auto flex items-center gap-0.5">
-          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/[0.04] hover:text-white/60">
+          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/4 hover:text-white/60">
             <User className="size-3" />
             My tasks
           </button>
-          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/[0.04] hover:text-white/60">
+          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/4 hover:text-white/60">
             <Clock className="size-3" />
             Recent
           </button>
-          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/[0.04] hover:text-white/60">
+          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/4 hover:text-white/60">
             <Filter className="size-3" />
             All filters
           </button>

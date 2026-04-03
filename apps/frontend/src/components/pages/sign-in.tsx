@@ -16,14 +16,14 @@ export function SignInPage() {
   const callbackURL = new URL('/', window.location.origin).toString();
 
   return (
-    <div className="bg-surface font-dm ml-[calc(50%_-_50vw)] flex min-h-svh w-screen overflow-hidden border-none text-left max-[900px]:flex-col">
+    <div className="bg-surface font-dm ml-[calc(50%-50vw)] flex min-h-svh w-screen overflow-hidden border-none text-left max-[900px]:flex-col">
       {/* Left decorative panel */}
       <div className="relative flex max-w-[50%] flex-[0_0_50%] items-end overflow-hidden p-8 max-[900px]:min-h-[300px] max-[900px]:max-w-full max-[900px]:flex-none max-[900px]:p-5">
         <div className="absolute inset-4 overflow-hidden rounded-3xl bg-[#0a0a12] max-[900px]:inset-3 max-[900px]:rounded-[20px]">
           <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.15)_50%,rgba(0,0,0,0.05)_100%)]" />
         </div>
-        <div className="motion-safe:animate-panel-fade-up relative z-[2] p-6 text-white/[0.92] motion-safe:[animation-delay:0.2s]">
+        <div className="motion-safe:animate-panel-fade-up relative z-2 p-6 text-white/92 motion-safe:[animation-delay:0.2s]">
           <p className="mb-6 text-xs font-medium tracking-[2.5px] text-white/55 uppercase">
             A space for your mind
           </p>
@@ -43,11 +43,11 @@ export function SignInPage() {
       </div>
 
       {/* Right sign-in area */}
-      <div className="relative flex min-h-svh flex-1 flex-col overflow-hidden px-12 py-10 max-[900px]:[min-height:auto] max-[900px]:px-6 max-[900px]:pt-8 max-[900px]:pb-10">
+      <div className="relative flex min-h-svh flex-1 flex-col overflow-hidden px-12 py-10 max-[900px]:min-h-auto max-[900px]:px-6 max-[900px]:pt-8 max-[900px]:pb-10">
         <div className="pointer-events-none absolute inset-0">
-          <div className="animate-glow-pulse absolute top-1/2 left-1/2 h-[560px] w-[560px] [transform:translate(-50%,-50%)] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_70%)] opacity-[0.08]" />
+          <div className="animate-glow-pulse absolute top-1/2 left-1/2 h-[560px] w-[560px] transform-[translate(-50%,-50%)] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_70%)] opacity-[0.08]" />
           <div
-            className="absolute inset-0 bg-[length:128px_128px] opacity-[0.08] mix-blend-overlay"
+            className="absolute inset-0 bg-size-[128px_128px] opacity-[0.08] mix-blend-overlay"
             style={{ backgroundImage: NOISE_BG }}
           />
         </div>
@@ -64,7 +64,7 @@ export function SignInPage() {
             <h1 className="text-heading motion-safe:animate-fade-in m-0 mb-3 font-serif text-[42px] leading-[1.1] font-normal tracking-[-0.8px] motion-safe:[animation-delay:0.25s]">
               Welcome back
             </h1>
-            <p className="text-text motion-safe:animate-fade-in mb-12 text-[15px] leading-[1.5] motion-safe:[animation-delay:0.35s] max-[900px]:mb-9">
+            <p className="text-text motion-safe:animate-fade-in mb-12 text-[15px] leading-normal motion-safe:[animation-delay:0.35s] max-[900px]:mb-9">
               Sign in to continue to your workspace
             </p>
 

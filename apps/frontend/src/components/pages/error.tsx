@@ -15,12 +15,12 @@ export function ErrorPage() {
     : 'An unexpected error occurred. Please try again.';
 
   return (
-    <div className="font-dm bg-surface relative ml-[calc(50%_-_50vw)] flex min-h-svh w-screen items-center justify-center overflow-hidden border-none text-center">
+    <div className="font-dm bg-surface relative ml-[calc(50%-50vw)] flex min-h-svh w-screen items-center justify-center overflow-hidden border-none text-center">
       <div className="pointer-events-none absolute inset-0">
-        <div className="animate-error-pulse absolute top-1/2 left-1/2 h-[500px] w-[500px] [transform:translate(-50%,-50%)] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_70%)] opacity-25 blur-[100px]" />
-        <div className="animate-error-pulse-2 absolute top-1/2 left-1/2 h-[350px] w-[350px] [transform:translate(-40%,-60%)] rounded-full bg-[radial-gradient(circle,#ec4899_0%,transparent_70%)] opacity-15 blur-[100px]" />
+        <div className="animate-error-pulse absolute top-1/2 left-1/2 h-[500px] w-[500px] transform-[translate(-50%,-50%)] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_70%)] opacity-25 blur-[100px]" />
+        <div className="animate-error-pulse-2 absolute top-1/2 left-1/2 h-[350px] w-[350px] transform-[translate(-40%,-60%)] rounded-full bg-[radial-gradient(circle,#ec4899_0%,transparent_70%)] opacity-15 blur-[100px]" />
         <div
-          className="absolute inset-0 bg-[length:128px_128px] opacity-[0.08] mix-blend-overlay"
+          className="absolute inset-0 bg-size-[128px_128px] opacity-[0.08] mix-blend-overlay"
           style={{ backgroundImage: NOISE_BG }}
         />
       </div>
@@ -47,7 +47,7 @@ export function ErrorPage() {
           <Button
             variant="outline"
             size="lg"
-            className="hover:text-heading rounded-xl px-7 py-3 hover:[border-color:color-mix(in_srgb,var(--border)_100%,var(--text-h)_20%)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] max-[480px]:w-full"
+            className="hover:text-heading rounded-xl px-7 py-3 hover:border-[color-mix(in_srgb,var(--border)_100%,var(--text-h)_20%)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] max-[480px]:w-full"
             onClick={() => navigate(-1)}
           >
             Go back

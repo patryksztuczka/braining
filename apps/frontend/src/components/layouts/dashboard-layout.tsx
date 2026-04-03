@@ -5,7 +5,7 @@ import { DashboardSidebar } from './dashboard-sidebar';
 
 export function DashboardLayout() {
   return (
-    <div className="font-dm ml-[calc(50%_-_50vw)] flex h-svh w-screen gap-2 overflow-hidden border-none p-3 text-left">
+    <div className="font-dm ml-[calc(50%-50vw)] flex h-svh w-screen gap-2 overflow-hidden border-none p-3 text-left">
       {/* Background effects */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="bg-surface absolute inset-0" />
@@ -13,7 +13,7 @@ export function DashboardLayout() {
         <div className="absolute bottom-[-200px] left-[100px] h-[800px] w-[800px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.06]" />
         <div className="absolute top-[30%] left-[40%] h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,var(--accent)_0%,transparent_65%)] opacity-[0.04]" />
         <div
-          className="absolute inset-0 bg-[length:128px_128px] opacity-[0.025] mix-blend-overlay"
+          className="absolute inset-0 bg-size-[128px_128px] opacity-[0.025] mix-blend-overlay"
           style={{ backgroundImage: NOISE_BG }}
         />
       </div>
