@@ -1,6 +1,10 @@
 import { relations, sql } from 'drizzle-orm';
 import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
 
+export const issueStatuses = ['todo', 'in_progress', 'done'] as const;
+
+export type IssueStatus = (typeof issueStatuses)[number];
+
 export const users = sqliteTable('users', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
@@ -85,9 +89,29 @@ export const verifications = sqliteTable(
   (table) => [index('verification_identifier_idx').on(table.identifier)],
 );
 
+export const issues = sqliteTable(
+  'issues',
+  {
+    id: text('id').primaryKey(),
+    name: text('name').notNull(),
+    status: text('status', { enum: issueStatuses }).notNull(),
+    createdAt: integer('created_at', { mode: 'timestamp_ms' })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+      .notNull(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+  },
+  (table) => [
+    index('issue_userId_idx').on(table.userId),
+    index('issue_status_idx').on(table.status),
+  ],
+);
+
 export const userRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   accounts: many(accounts),
+  issues: many(issues),
 }));
 
 export const sessionRelations = relations(sessions, ({ one }) => ({
@@ -103,3 +127,13 @@ export const accountRelations = relations(accounts, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+export const issueRelations = relations(issues, ({ one }) => ({
+  user: one(users, {
+    fields: [issues.userId],
+    references: [users.id],
+  }),
+}));
+
+export type Issue = typeof issues.$inferSelect;
+export type User = typeof users.$inferSelect;

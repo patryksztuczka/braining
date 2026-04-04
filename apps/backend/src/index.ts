@@ -3,15 +3,16 @@ import { users } from './db/schema';
 import { db } from './db/client';
 import { auth } from './lib/auth';
 import { cors } from 'hono/cors';
+import { IssuesRoutes } from './modules/issues/issues-routes';
 
 const app = new Hono();
 
 app.use(
-  '/api/auth/*', // or replace with "*" to enable cors for all routes
+  '/api/*',
   cors({
-    origin: 'http://localhost:5173', // replace with your origin
+    origin: 'http://localhost:5173',
     allowHeaders: ['Content-Type', 'Authorization'],
-    allowMethods: ['POST', 'GET', 'OPTIONS'],
+    allowMethods: ['POST', 'GET', 'PATCH', 'DELETE', 'OPTIONS'],
     exposeHeaders: ['Content-Length'],
     maxAge: 600,
     credentials: true,
@@ -19,6 +20,8 @@ app.use(
 );
 
 app.on(['POST', 'GET'], '/api/auth/*', (c) => auth.handler(c.req.raw));
+
+app.route('/api/issues', new IssuesRoutes().build());
 
 app.get('/', async (c) => {
   const u = await db.select().from(users);
