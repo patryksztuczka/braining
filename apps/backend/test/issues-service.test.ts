@@ -74,278 +74,288 @@ describe('issues service', () => {
     vi.clearAllMocks();
   });
 
-  it('returns all issues for given user and status', async () => {
-    issuesRepoMock.findMany.mockResolvedValue([issues[1]]);
-    const res = await issuesService.list('usr_1', { status: 'todo' });
+  describe('list', () => {
+    it('returns all issues for given user and status', async () => {
+      issuesRepoMock.findMany.mockResolvedValue([issues[1]]);
+      const res = await issuesService.list('usr_1', { status: 'todo' });
 
-    expect(issuesRepoMock.findMany).toHaveBeenCalledWith({
-      userId: 'usr_1',
-      status: 'todo',
+      expect(issuesRepoMock.findMany).toHaveBeenCalledWith({
+        userId: 'usr_1',
+        status: 'todo',
+      });
+      expect(res.length).toBe(1);
+      expect(res).toEqual([issues[1]]);
     });
-    expect(res.length).toBe(1);
-    expect(res).toEqual([issues[1]]);
-  });
 
-  it('returns all issues for given user without status filter', async () => {
-    issuesRepoMock.findMany.mockResolvedValue([issues[0], issues[1]]);
+    it('returns all issues for given user without status filter', async () => {
+      issuesRepoMock.findMany.mockResolvedValue([issues[0], issues[1]]);
 
-    const res = await issuesService.list('usr_1');
+      const res = await issuesService.list('usr_1');
 
-    expect(issuesRepoMock.findMany).toHaveBeenCalledWith({
-      userId: 'usr_1',
-      status: undefined,
+      expect(issuesRepoMock.findMany).toHaveBeenCalledWith({
+        userId: 'usr_1',
+        status: undefined,
+      });
+      expect(res).toEqual([issues[0], issues[1]]);
     });
-    expect(res).toEqual([issues[0], issues[1]]);
   });
 
-  it('returns issue by id for owning user', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[0]);
+  describe('getById', () => {
+    it('returns issue by id for owning user', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[0]);
 
-    const res = await issuesService.getById('usr_1', 'issue_1');
+      const res = await issuesService.getById('usr_1', 'issue_1');
 
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_1');
-    expect(res).toEqual(issues[0]);
-  });
-
-  it('throws 404 when issue does not exist', async () => {
-    issuesRepoMock.findById.mockResolvedValue(null);
-
-    await expectIssuesServiceError(
-      issuesService.getById('usr_1', 'missing_issue'),
-      'Issue not found: missing_issue',
-      404,
-    );
-
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('missing_issue');
-  });
-
-  it('throws 404 when trying to access issue of different user', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[2]);
-
-    await expectIssuesServiceError(
-      issuesService.getById('usr_1', 'issue_3'),
-      'Issue not found: issue_3',
-      404,
-    );
-
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_3');
-  });
-
-  it('creates and returns new issue with user data', async () => {
-    usersRepoMock.findById.mockResolvedValue({
-      id: 'usr_2',
-      email: 'user2@example.com',
-      emailVerified: true,
-      image: null,
-      name: 'Jane Doe',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_1');
+      expect(res).toEqual(issues[0]);
     });
-    const newIssue: IssueWithUser = {
-      id: 'issue_4',
-      name: 'New Issue',
-      status: 'todo',
-      userId: 'usr_2',
-      user: {
+
+    it('throws 404 when issue does not exist', async () => {
+      issuesRepoMock.findById.mockResolvedValue(null);
+
+      await expectIssuesServiceError(
+        issuesService.getById('usr_1', 'missing_issue'),
+        'Issue not found: missing_issue',
+        404,
+      );
+
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('missing_issue');
+    });
+
+    it('throws 404 when trying to access issue of different user', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[2]);
+
+      await expectIssuesServiceError(
+        issuesService.getById('usr_1', 'issue_3'),
+        'Issue not found: issue_3',
+        404,
+      );
+
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_3');
+    });
+  });
+
+  describe('create', () => {
+    it('creates and returns new issue with user data', async () => {
+      usersRepoMock.findById.mockResolvedValue({
         id: 'usr_2',
         email: 'user2@example.com',
+        emailVerified: true,
         image: null,
         name: 'Jane Doe',
         createdAt: new Date(),
-      },
-      createdAt: new Date(),
-    };
-    vi.spyOn(crypto, 'randomUUID').mockReturnValue('issue_4');
-    issuesRepoMock.create.mockResolvedValue(newIssue);
-
-    const res = await issuesService.create('usr_2', {
-      name: 'New Issue',
-      status: 'todo',
-    });
-
-    expect(usersRepoMock.findById).toHaveBeenCalledWith('usr_2');
-    expect(issuesRepoMock.create).toHaveBeenCalledWith({
-      id: 'issue_4',
-      name: 'New Issue',
-      status: 'todo',
-      userId: 'usr_2',
-    });
-    expect(res).toEqual(newIssue);
-  });
-
-  it('throws 404 when user does not exist during create', async () => {
-    usersRepoMock.findById.mockResolvedValue(null);
-    vi.spyOn(crypto, 'randomUUID').mockReturnValue('issue_4');
-
-    await expectIssuesServiceError(
-      issuesService.create('usr_2', {
+        updatedAt: new Date(),
+      });
+      const newIssue: IssueWithUser = {
+        id: 'issue_4',
         name: 'New Issue',
         status: 'todo',
-      }),
-      'User not found: usr_2',
-      404,
-    );
+        userId: 'usr_2',
+        user: {
+          id: 'usr_2',
+          email: 'user2@example.com',
+          image: null,
+          name: 'Jane Doe',
+          createdAt: new Date(),
+        },
+        createdAt: new Date(),
+      };
+      vi.spyOn(crypto, 'randomUUID').mockReturnValue('issue_4');
+      issuesRepoMock.create.mockResolvedValue(newIssue);
 
-    expect(usersRepoMock.findById).toHaveBeenCalledWith('usr_2');
-    expect(issuesRepoMock.create).not.toHaveBeenCalled();
-  });
-
-  it('throws 500 when repository fails to create issue', async () => {
-    usersRepoMock.findById.mockResolvedValue({
-      id: 'usr_2',
-      email: 'user2@example.com',
-      emailVerified: true,
-      image: null,
-      name: 'Jane Doe',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-    vi.spyOn(crypto, 'randomUUID').mockReturnValue('issue_4');
-    issuesRepoMock.create.mockResolvedValue(null);
-
-    await expectIssuesServiceError(
-      issuesService.create('usr_2', {
+      const res = await issuesService.create('usr_2', {
         name: 'New Issue',
         status: 'todo',
-      }),
-      'Failed to create issue',
-      500,
-    );
+      });
 
-    expect(usersRepoMock.findById).toHaveBeenCalledWith('usr_2');
-    expect(issuesRepoMock.create).toHaveBeenCalledWith({
-      id: 'issue_4',
-      name: 'New Issue',
-      status: 'todo',
-      userId: 'usr_2',
+      expect(usersRepoMock.findById).toHaveBeenCalledWith('usr_2');
+      expect(issuesRepoMock.create).toHaveBeenCalledWith({
+        id: 'issue_4',
+        name: 'New Issue',
+        status: 'todo',
+        userId: 'usr_2',
+      });
+      expect(res).toEqual(newIssue);
+    });
+
+    it('throws 404 when user does not exist during create', async () => {
+      usersRepoMock.findById.mockResolvedValue(null);
+      vi.spyOn(crypto, 'randomUUID').mockReturnValue('issue_4');
+
+      await expectIssuesServiceError(
+        issuesService.create('usr_2', {
+          name: 'New Issue',
+          status: 'todo',
+        }),
+        'User not found: usr_2',
+        404,
+      );
+
+      expect(usersRepoMock.findById).toHaveBeenCalledWith('usr_2');
+      expect(issuesRepoMock.create).not.toHaveBeenCalled();
+    });
+
+    it('throws 500 when repository fails to create issue', async () => {
+      usersRepoMock.findById.mockResolvedValue({
+        id: 'usr_2',
+        email: 'user2@example.com',
+        emailVerified: true,
+        image: null,
+        name: 'Jane Doe',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      vi.spyOn(crypto, 'randomUUID').mockReturnValue('issue_4');
+      issuesRepoMock.create.mockResolvedValue(null);
+
+      await expectIssuesServiceError(
+        issuesService.create('usr_2', {
+          name: 'New Issue',
+          status: 'todo',
+        }),
+        'Failed to create issue',
+        500,
+      );
+
+      expect(usersRepoMock.findById).toHaveBeenCalledWith('usr_2');
+      expect(issuesRepoMock.create).toHaveBeenCalledWith({
+        id: 'issue_4',
+        name: 'New Issue',
+        status: 'todo',
+        userId: 'usr_2',
+      });
     });
   });
 
-  it('updates issue name and returns updated issue', async () => {
-    const updatedIssue: IssueWithUser = {
-      ...issues[1],
-      name: 'Updated Issue 2',
-    };
-    issuesRepoMock.findById.mockResolvedValue(issues[1]);
-    issuesRepoMock.update.mockResolvedValue(updatedIssue);
+  describe('update', () => {
+    it('updates issue name and returns updated issue', async () => {
+      const updatedIssue: IssueWithUser = {
+        ...issues[1],
+        name: 'Updated Issue 2',
+      };
+      issuesRepoMock.findById.mockResolvedValue(issues[1]);
+      issuesRepoMock.update.mockResolvedValue(updatedIssue);
 
-    const res = await issuesService.update('usr_1', 'issue_2', { name: 'Updated Issue 2' });
+      const res = await issuesService.update('usr_1', 'issue_2', { name: 'Updated Issue 2' });
 
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_2');
-    expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', { name: 'Updated Issue 2' });
-    expect(res).toEqual(updatedIssue);
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_2');
+      expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', { name: 'Updated Issue 2' });
+      expect(res).toEqual(updatedIssue);
+    });
+
+    it('updates issue with empty payload when no input is passed', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[1]);
+      issuesRepoMock.update.mockResolvedValue(issues[1]);
+
+      const res = await issuesService.update('usr_1', 'issue_2', {});
+
+      expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', {});
+      expect(res).toEqual(issues[1]);
+    });
+
+    it('updates issue status and returns updated issue', async () => {
+      const updatedIssue: IssueWithUser = {
+        ...issues[1],
+        status: 'done',
+      };
+      issuesRepoMock.findById.mockResolvedValue(issues[1]);
+      issuesRepoMock.update.mockResolvedValue(updatedIssue);
+
+      const res = await issuesService.update('usr_1', 'issue_2', { status: 'done' });
+
+      expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', { status: 'done' });
+      expect(res).toEqual(updatedIssue);
+    });
+
+    it('throws 404 when updating issue that does not exist', async () => {
+      issuesRepoMock.findById.mockResolvedValue(null);
+
+      await expectIssuesServiceError(
+        issuesService.update('usr_1', 'missing_issue', { name: 'Updated Issue' }),
+        'Issue not found: missing_issue',
+        404,
+      );
+
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('missing_issue');
+      expect(issuesRepoMock.update).not.toHaveBeenCalled();
+    });
+
+    it('throws 404 when updating issue of different user', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[2]);
+
+      await expectIssuesServiceError(
+        issuesService.update('usr_1', 'issue_3', { name: 'Updated Issue' }),
+        'Issue not found: issue_3',
+        404,
+      );
+
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_3');
+      expect(issuesRepoMock.update).not.toHaveBeenCalled();
+    });
+
+    it('throws 404 when repository cannot update owned issue', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[1]);
+      issuesRepoMock.update.mockResolvedValue(null);
+
+      await expectIssuesServiceError(
+        issuesService.update('usr_1', 'issue_2', { name: 'Updated Issue' }),
+        'Issue not found: issue_2',
+        404,
+      );
+
+      expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', { name: 'Updated Issue' });
+    });
   });
 
-  it('updates issue with empty payload when no input is passed', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[1]);
-    issuesRepoMock.update.mockResolvedValue(issues[1]);
+  describe('delete', () => {
+    it('deletes owned issue and returns deleted issue', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[1]);
+      issuesRepoMock.delete.mockResolvedValue(issues[1]);
 
-    const res = await issuesService.update('usr_1', 'issue_2', {});
+      const res = await issuesService.delete('usr_1', 'issue_2');
 
-    expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', {});
-    expect(res).toEqual(issues[1]);
-  });
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_2');
+      expect(issuesRepoMock.delete).toHaveBeenCalledWith('issue_2');
+      expect(res).toEqual(issues[1]);
+    });
 
-  it('updates issue status and returns updated issue', async () => {
-    const updatedIssue: IssueWithUser = {
-      ...issues[1],
-      status: 'done',
-    };
-    issuesRepoMock.findById.mockResolvedValue(issues[1]);
-    issuesRepoMock.update.mockResolvedValue(updatedIssue);
+    it('throws 404 when deleting issue that does not exist', async () => {
+      issuesRepoMock.findById.mockResolvedValue(null);
 
-    const res = await issuesService.update('usr_1', 'issue_2', { status: 'done' });
+      await expectIssuesServiceError(
+        issuesService.delete('usr_1', 'missing_issue'),
+        'Issue not found: missing_issue',
+        404,
+      );
 
-    expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', { status: 'done' });
-    expect(res).toEqual(updatedIssue);
-  });
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('missing_issue');
+      expect(issuesRepoMock.delete).not.toHaveBeenCalled();
+    });
 
-  it('throws 404 when updating issue that does not exist', async () => {
-    issuesRepoMock.findById.mockResolvedValue(null);
+    it('throws 404 when deleting issue of different user', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[2]);
 
-    await expectIssuesServiceError(
-      issuesService.update('usr_1', 'missing_issue', { name: 'Updated Issue' }),
-      'Issue not found: missing_issue',
-      404,
-    );
+      await expectIssuesServiceError(
+        issuesService.delete('usr_1', 'issue_3'),
+        'Issue not found: issue_3',
+        404,
+      );
 
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('missing_issue');
-    expect(issuesRepoMock.update).not.toHaveBeenCalled();
-  });
+      expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_3');
+      expect(issuesRepoMock.delete).not.toHaveBeenCalled();
+    });
 
-  it('throws 404 when updating issue of different user', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[2]);
+    it('throws 404 when repository cannot delete owned issue', async () => {
+      issuesRepoMock.findById.mockResolvedValue(issues[1]);
+      issuesRepoMock.delete.mockResolvedValue(null);
 
-    await expectIssuesServiceError(
-      issuesService.update('usr_1', 'issue_3', { name: 'Updated Issue' }),
-      'Issue not found: issue_3',
-      404,
-    );
+      await expectIssuesServiceError(
+        issuesService.delete('usr_1', 'issue_2'),
+        'Issue not found: issue_2',
+        404,
+      );
 
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_3');
-    expect(issuesRepoMock.update).not.toHaveBeenCalled();
-  });
-
-  it('throws 404 when repository cannot update owned issue', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[1]);
-    issuesRepoMock.update.mockResolvedValue(null);
-
-    await expectIssuesServiceError(
-      issuesService.update('usr_1', 'issue_2', { name: 'Updated Issue' }),
-      'Issue not found: issue_2',
-      404,
-    );
-
-    expect(issuesRepoMock.update).toHaveBeenCalledWith('issue_2', { name: 'Updated Issue' });
-  });
-
-  it('deletes owned issue and returns deleted issue', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[1]);
-    issuesRepoMock.delete.mockResolvedValue(issues[1]);
-
-    const res = await issuesService.delete('usr_1', 'issue_2');
-
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_2');
-    expect(issuesRepoMock.delete).toHaveBeenCalledWith('issue_2');
-    expect(res).toEqual(issues[1]);
-  });
-
-  it('throws 404 when deleting issue that does not exist', async () => {
-    issuesRepoMock.findById.mockResolvedValue(null);
-
-    await expectIssuesServiceError(
-      issuesService.delete('usr_1', 'missing_issue'),
-      'Issue not found: missing_issue',
-      404,
-    );
-
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('missing_issue');
-    expect(issuesRepoMock.delete).not.toHaveBeenCalled();
-  });
-
-  it('throws 404 when deleting issue of different user', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[2]);
-
-    await expectIssuesServiceError(
-      issuesService.delete('usr_1', 'issue_3'),
-      'Issue not found: issue_3',
-      404,
-    );
-
-    expect(issuesRepoMock.findById).toHaveBeenCalledWith('issue_3');
-    expect(issuesRepoMock.delete).not.toHaveBeenCalled();
-  });
-
-  it('throws 404 when repository cannot delete owned issue', async () => {
-    issuesRepoMock.findById.mockResolvedValue(issues[1]);
-    issuesRepoMock.delete.mockResolvedValue(null);
-
-    await expectIssuesServiceError(
-      issuesService.delete('usr_1', 'issue_2'),
-      'Issue not found: issue_2',
-      404,
-    );
-
-    expect(issuesRepoMock.delete).toHaveBeenCalledWith('issue_2');
+      expect(issuesRepoMock.delete).toHaveBeenCalledWith('issue_2');
+    });
   });
 });

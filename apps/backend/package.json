@@ -12,8 +12,8 @@
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md}\"",
     "lint": "eslint . --max-warnings 0",
     "db:generate": "npx drizzle-kit generate",
-    "db:migrate": "npx drizzle-kit migrate",
-    "db:migrate:local": "wrangler d1 migrations apply braining-prod --local",
+    "db:migrate": "wrangler d1 migrations apply braining-prod --local",
+    "db:migrate:remote": "wrangler d1 migrations apply braining-prod --remote",
     "db:studio": "npx drizzle-kit studio"
   },
   "dependencies": {
