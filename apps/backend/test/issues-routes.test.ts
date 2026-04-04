@@ -349,7 +349,7 @@ describe('issues integration tests', () => {
       });
 
       const remainingIssues = await db.select().from(issues);
-      expect(remainingIssues.map((issue) => issue.id)).toEqual(['issue_1', 'issue_3']);
+      expect(remainingIssues.map((issue) => issue.id).sort()).toEqual(['issue_1', 'issue_3']);
     });
 
     it('returns 404 when deleting issue owned by different user', async () => {
