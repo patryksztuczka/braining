@@ -1,5 +1,5 @@
-import { auth } from '../lib/auth';
 import { createMiddleware } from 'hono/factory';
+import { auth } from '../lib/auth';
 
 export type AuthenticatedUser = {
   id: string;

@@ -54,3 +54,6 @@ jobs:
 
       - name: Typecheck backend
         run: pnpm --dir apps/backend check-types
+
+      - name: Run tests
+        run: pnpm --dir apps/backend test

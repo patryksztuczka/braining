@@ -5,9 +5,9 @@
   "compatibility_date": "2026-03-29",
   "d1_databases": [
     {
-      "binding": "DB_PROD",
+      "binding": "DATABASE",
       "database_name": "braining-prod",
-      "database_id": "32638fef-ffc6-4f51-b32c-10fcc319acc9",
+      "database_id": "440bf6ec-a8af-422b-8b50-d210ef6d418b",
       "migrations_dir": "drizzle/migrations",
     },
   ],
