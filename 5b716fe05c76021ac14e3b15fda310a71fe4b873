@@ -1,0 +1,43 @@
+apps/frontend/src/components/pages/dashboard.tsx
+  6a7b7760553c343a 1-10,12-88,90-94,96-101,103,105-115,117-139,141,144-183,186-189,191-219,222
+apps/frontend/src/components/pages/boards/use-issues-query.ts
+  6a7b7760553c343a 3
+apps/frontend/src/components/pages/boards/boards-constants.ts
+  6a7b7760553c343a 1
+apps/frontend/src/providers/router.tsx
+  6a7b7760553c343a 37,39-47
+apps/frontend/src/components/pages/projects.tsx
+  6a7b7760553c343a 1-282
+apps/frontend/src/components/pages/boards/use-create-issue-mutation.ts
+  6a7b7760553c343a 3
+apps/frontend/src/components/layouts/dashboard-sidebar.tsx
+  6a7b7760553c343a 1-2,5-7,26,28-35,39
+apps/frontend/src/components/pages/boards/create-issue-dialog.tsx
+  6a7b7760553c343a 14,82-83
+apps/frontend/src/components/pages/boards/boards-task-card.tsx
+  6a7b7760553c343a 2-3,5,10
+apps/frontend/src/components/pages/boards.tsx
+  6a7b7760553c343a 3-9,11,36,47-54,69
+apps/frontend/src/components/pages/boards/boards-kanban-column.tsx
+  6a7b7760553c343a 1-2,4,9,31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "5b716fe05c76021ac14e3b15fda310a71fe4b873",
+  "prompts": {
+    "6a7b7760553c343a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "943e83ff-980a-48bf-81e2-5eb68faf3b4d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 710,
+      "total_deletions": 264,
+      "accepted_lines": 576,
+      "overriden_lines": 0
+    }
+  }
+}
