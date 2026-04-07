@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { STATUS_CONFIG, STATUS_ORDER } from './dashboard-constants';
+import { STATUS_CONFIG, STATUS_ORDER } from './boards-constants';
 
 const createIssueSchema = z.object({
   name: z.string().trim().min(1, 'Issue name is required'),
@@ -79,6 +79,8 @@ export function CreateIssueDialog({ open, onOpenChange, onSubmit }: CreateIssueD
                 {...register('name')}
                 type="text"
                 placeholder="e.g. Fix sidebar navigation bug"
+                autoComplete="off"
+                data-1p-ignore
                 disabled={isSubmitting}
                 className="font-dm h-8 w-full rounded-lg border border-white/[0.07] bg-white/[0.04] px-3 text-[13px] text-white/90 transition-all placeholder:text-white/20 focus:border-(--accent)/25 focus:bg-white/[0.06] focus:outline-none disabled:opacity-50"
                 autoFocus

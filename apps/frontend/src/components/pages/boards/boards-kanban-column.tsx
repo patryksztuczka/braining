@@ -1,12 +1,12 @@
-import type { DashboardColumn } from './dashboard-types';
-import { DashboardTaskCard } from './dashboard-task-card';
+import type { DashboardColumn } from './boards-types';
+import { BoardsTaskCard } from './boards-task-card';
 
-type DashboardKanbanColumnProps = {
+type BoardsKanbanColumnProps = {
   column: DashboardColumn;
   colIndex: number;
 };
 
-export function DashboardKanbanColumn({ column, colIndex }: DashboardKanbanColumnProps) {
+export function BoardsKanbanColumn({ column, colIndex }: BoardsKanbanColumnProps) {
   return (
     <div
       className="motion-safe:animate-stagger-in flex w-[260px] min-w-[260px] flex-col"
@@ -28,7 +28,7 @@ export function DashboardKanbanColumn({ column, colIndex }: DashboardKanbanColum
       <div className="space-y-2.5 pb-4">
         {column.issues.length > 0 ? (
           column.issues.map((issue, index) => (
-            <DashboardTaskCard key={issue.id} issue={issue} index={index + colIndex * 2} />
+            <BoardsTaskCard key={issue.id} issue={issue} index={index + colIndex * 2} />
           ))
         ) : (
           <div className="rounded-xl border border-dashed border-white/6 p-4 text-center text-[12px] text-white/25">

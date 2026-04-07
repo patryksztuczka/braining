@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AUTH_BASE_URL } from '@/lib/auth-client';
-import type { IssueStatus } from './dashboard-types';
+import type { IssueStatus } from './boards-types';
 
 type CreateIssueInput = {
   name: string;

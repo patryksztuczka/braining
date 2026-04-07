@@ -1,13 +1,13 @@
 import { Clock, MoreHorizontal, User } from 'lucide-react';
-import type { Issue } from './dashboard-types';
-import { formatIssueDate } from './dashboard-utils';
+import type { Issue } from './boards-types';
+import { formatIssueDate } from './boards-utils';
 
-type DashboardTaskCardProps = {
+type BoardsTaskCardProps = {
   issue: Issue;
   index: number;
 };
 
-export function DashboardTaskCard({ issue, index }: DashboardTaskCardProps) {
+export function BoardsTaskCard({ issue, index }: BoardsTaskCardProps) {
   const createdAtLabel = formatIssueDate(issue.createdAt);
 
   return (

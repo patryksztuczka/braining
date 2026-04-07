@@ -1,4 +1,4 @@
-import type { DashboardColumn, IssueStatus } from './dashboard-types';
+import type { DashboardColumn, IssueStatus } from './boards-types';
 
 export const STATUS_CONFIG: Record<IssueStatus, Omit<DashboardColumn, 'issues'>> = {
   todo: {

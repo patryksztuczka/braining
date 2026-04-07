@@ -1,131 +1,226 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Clock, Filter, MoreHorizontal, Plus, Search, User } from 'lucide-react';
-import { CreateIssueDialog } from './dashboard/create-issue-dialog';
-import { STATUS_CONFIG, STATUS_ORDER, TABS } from './dashboard/dashboard-constants';
-import { DashboardKanbanColumn } from './dashboard/dashboard-kanban-column';
-import type { DashboardColumn } from './dashboard/dashboard-types';
-import { useCreateIssueMutation } from './dashboard/use-create-issue-mutation';
-import { useIssuesQuery } from './dashboard/use-issues-query';
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  CheckCircle2,
+  Clock,
+  Folder,
+  Layers3,
+  ListTodo,
+  Users,
+} from 'lucide-react';
+
+const STATS = [
+  {
+    label: 'Total issues',
+    value: '128',
+    change: '+12%',
+    trend: 'up' as const,
+    icon: ListTodo,
+    color: '#818cf8',
+  },
+  {
+    label: 'Completed',
+    value: '87',
+    change: '+8%',
+    trend: 'up' as const,
+    icon: CheckCircle2,
+    color: '#34d399',
+  },
+  {
+    label: 'Active projects',
+    value: '6',
+    change: '+2',
+    trend: 'up' as const,
+    icon: Folder,
+    color: '#c084fc',
+  },
+  {
+    label: 'Team members',
+    value: '14',
+    change: '0',
+    trend: 'neutral' as const,
+    icon: Users,
+    color: '#f59e0b',
+  },
+];
+
+const RECENT_ACTIVITY = [
+  {
+    id: 1,
+    user: 'Sarah Chen',
+    action: 'completed',
+    target: 'Set up CI/CD pipeline',
+    project: 'Infrastructure',
+    time: '12 min ago',
+  },
+  {
+    id: 2,
+    user: 'Alex Rivera',
+    action: 'created',
+    target: 'Design token system',
+    project: 'Design System',
+    time: '34 min ago',
+  },
+  {
+    id: 3,
+    user: 'Jordan Lee',
+    action: 'moved',
+    target: 'API rate limiter',
+    project: 'Backend',
+    time: '1h ago',
+  },
+  {
+    id: 4,
+    user: 'Maya Patel',
+    action: 'commented on',
+    target: 'Dashboard redesign',
+    project: 'Frontend',
+    time: '2h ago',
+  },
+  {
+    id: 5,
+    user: 'Liam Nguyen',
+    action: 'completed',
+    target: 'Write E2E tests',
+    project: 'QA',
+    time: '3h ago',
+  },
+];
+
+const ACTIVE_SPRINTS = [
+  { name: 'Sprint 14', project: 'Frontend', progress: 72, total: 18, done: 13 },
+  { name: 'Sprint 8', project: 'Backend', progress: 45, total: 22, done: 10 },
+  { name: 'Sprint 3', project: 'Design System', progress: 88, total: 8, done: 7 },
+];
+
+const ACTION_COLORS: Record<string, string> = {
+  completed: 'text-emerald-400',
+  created: 'text-indigo-400',
+  moved: 'text-amber-400',
+  'commented on': 'text-white/50',
+};
 
 export function DashboardPage() {
-  const [search, setSearch] = useState('');
-  const [createOpen, setCreateOpen] = useState(false);
-  const { data: issues = [], isLoading, error } = useIssuesQuery();
-  const createIssue = useCreateIssueMutation();
-
-  const normalizedSearch = search.trim().toLowerCase();
-  const visibleIssues = normalizedSearch
-    ? issues.filter((issue) => {
-        const userText = `${issue.user.name} ${issue.user.email}`.toLowerCase();
-        return (
-          issue.name.toLowerCase().includes(normalizedSearch) ||
-          issue.id.toLowerCase().includes(normalizedSearch) ||
-          userText.includes(normalizedSearch)
-        );
-      })
-    : issues;
-
-  const columns: DashboardColumn[] = STATUS_ORDER.map((status) => ({
-    ...STATUS_CONFIG[status],
-    issues: visibleIssues.filter((issue) => issue.status === status),
-  }));
-
   return (
-    <div className="flex h-full flex-col overflow-hidden">
-      <div className="motion-safe:animate-fade-in px-5 pt-1 pb-0">
-        <div className="flex items-center gap-1">
-          <div className="mr-auto flex items-center gap-0.5">
-            {TABS.map((tab) => (
-              <button
-                key={tab}
-                className={`font-dm rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all ${
-                  tab === 'Active sprints'
-                    ? 'bg-white/8 text-white/90'
-                    : 'text-white/35 hover:bg-white/3 hover:text-white/60'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-          <Button
-            size="sm"
-            className="gap-1.5 rounded-[10px] border-(--accent)/20 bg-(--accent)/15 text-(--accent) hover:bg-(--accent)/25"
-            onClick={() => setCreateOpen(true)}
+    <div className="flex h-full flex-col overflow-y-auto">
+      <div className="motion-safe:animate-fade-in grid grid-cols-4 gap-3 px-6 pt-3">
+        {STATS.map((stat) => (
+          <div
+            key={stat.label}
+            className="group rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 transition-all duration-200 hover:border-white/10 hover:bg-white/[0.05]"
           >
-            <Plus className="size-3" />
-            Create issue
-          </Button>
-        </div>
-      </div>
-
-      <div className="motion-safe:animate-fade-in flex items-center gap-3 px-5 py-3 motion-safe:[animation-delay:0.15s]">
-        <div className="relative w-55">
-          <Search className="absolute top-1/2 left-2.5 size-3 -translate-y-1/2 text-white/25" />
-          <input
-            type="text"
-            placeholder="Search issues"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            className="font-dm text-heading h-7 w-full rounded-lg border border-white/5 bg-white/4 pr-3 pl-7 text-[12px] transition-all placeholder:text-white/25 focus:border-(--accent)/20 focus:outline-none"
-          />
-        </div>
-        <div className="ml-auto flex items-center gap-0.5">
-          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/4 hover:text-white/60">
-            <User className="size-3" />
-            My tasks
-          </button>
-          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/4 hover:text-white/60">
-            <Clock className="size-3" />
-            Recent
-          </button>
-          <button className="font-dm flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-[12px] text-white/35 transition-all hover:bg-white/4 hover:text-white/60">
-            <Filter className="size-3" />
-            All filters
-          </button>
-        </div>
-      </div>
-
-      <div className="motion-safe:animate-fade-in px-5 pb-3 motion-safe:[animation-delay:0.2s]">
-        <div className="flex items-center gap-2">
-          <span className="font-dm text-[13px] text-white/60">
-            <span className="mr-1 text-white/25">~</span>
-            BRN-Issues
-          </span>
-          <span className="font-dm text-[11px] text-white/25">({visibleIssues.length} issues)</span>
-          <span className="ml-2 inline-flex items-center rounded bg-cyan-500/15 px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-cyan-300 uppercase">
-            Live
-          </span>
-          <button className="ml-1 flex size-5 items-center justify-center rounded text-white/20 transition-colors hover:text-white/60">
-            <MoreHorizontal className="size-3.5" />
-          </button>
-        </div>
-      </div>
-
-      <div className="min-h-0 flex-1 overflow-auto px-5 pb-4">
-        {isLoading ? (
-          <div className="flex h-full items-center justify-center text-[13px] text-white/35">
-            Loading issues...
+            <div className="flex items-center justify-between">
+              <div
+                className="flex size-8 items-center justify-center rounded-lg"
+                style={{ background: `${stat.color}15` }}
+              >
+                <stat.icon className="size-4" style={{ color: stat.color }} />
+              </div>
+              {stat.trend !== 'neutral' && (
+                <span
+                  className={`flex items-center gap-0.5 text-[11px] font-medium ${
+                    stat.trend === 'up' ? 'text-emerald-400' : 'text-red-400'
+                  }`}
+                >
+                  {stat.trend === 'up' ? (
+                    <ArrowUpRight className="size-3" />
+                  ) : (
+                    <ArrowDownRight className="size-3" />
+                  )}
+                  {stat.change}
+                </span>
+              )}
+            </div>
+            <div className="mt-3">
+              <span className="font-dm text-[22px] font-semibold tracking-[-0.5px] text-white/90">
+                {stat.value}
+              </span>
+              <p className="font-dm mt-0.5 text-[11px] text-white/35">{stat.label}</p>
+            </div>
           </div>
-        ) : error ? (
-          <div className="flex h-full items-center justify-center text-[13px] text-red-300/80">
-            {error.message}
+        ))}
+      </div>
+
+      <div className="motion-safe:animate-fade-in grid grid-cols-5 gap-3 px-6 pt-4 motion-safe:[animation-delay:0.2s]">
+        <div className="col-span-3 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-dm text-[13px] font-semibold text-white/70">Recent activity</h2>
+            <button className="font-dm text-[11px] text-(--accent) transition-colors hover:text-(--accent)/80">
+              View all
+            </button>
           </div>
-        ) : (
-          <div className="flex w-max gap-4">
-            {columns.map((column, i) => (
-              <DashboardKanbanColumn key={column.id} column={column} colIndex={i} />
+          <div className="space-y-0">
+            {RECENT_ACTIVITY.map((activity) => (
+              <div
+                key={activity.id}
+                className="group flex items-center gap-3 rounded-lg px-2 py-2.5 transition-colors hover:bg-white/[0.03]"
+              >
+                <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-[10px] font-semibold text-white/50">
+                  {activity.user
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join('')}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-dm truncate text-[12px] text-white/60">
+                    <span className="font-medium text-white/80">{activity.user}</span>
+                    {' '}
+                    <span className={ACTION_COLORS[activity.action]}>{activity.action}</span>
+                    {' '}
+                    <span className="text-white/70">{activity.target}</span>
+                  </p>
+                  <div className="mt-0.5 flex items-center gap-2 text-[10px] text-white/25">
+                    <span>{activity.project}</span>
+                    <span>·</span>
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="size-2.5" />
+                      {activity.time}
+                    </span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
 
-      <CreateIssueDialog
-        open={createOpen}
-        onOpenChange={setCreateOpen}
-        onSubmit={async (data) => { await createIssue.mutateAsync(data); }}
-      />
+        <div className="col-span-2 rounded-xl border border-white/[0.07] bg-white/[0.03] p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-dm text-[13px] font-semibold text-white/70">Active sprints</h2>
+            <Layers3 className="size-3.5 text-white/25" />
+          </div>
+          <div className="space-y-4">
+            {ACTIVE_SPRINTS.map((sprint) => (
+              <div key={sprint.name}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-dm text-[12px] font-medium text-white/80">
+                      {sprint.name}
+                    </span>
+                    <span className="font-dm ml-2 text-[10px] text-white/25">{sprint.project}</span>
+                  </div>
+                  <span className="font-dm text-[11px] text-white/40">
+                    {sprint.done}/{sprint.total}
+                  </span>
+                </div>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${sprint.progress}%`,
+                      background:
+                        sprint.progress > 75
+                          ? '#34d399'
+                          : sprint.progress > 50
+                            ? '#f59e0b'
+                            : '#818cf8',
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

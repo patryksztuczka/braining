@@ -29,15 +29,22 @@ const router = createBrowserRouter([
               {
                 path: '/',
                 lazy: async () => {
-                  const { HomePage } = await import('../components/pages/home');
-                  return { Component: HomePage };
+                  const { DashboardPage } = await import('../components/pages/dashboard');
+                  return { Component: DashboardPage };
                 },
               },
               {
-                path: '/dashboard',
+                path: '/projects',
                 lazy: async () => {
-                  const { DashboardPage } = await import('../components/pages/dashboard');
-                  return { Component: DashboardPage };
+                  const { ProjectsPage } = await import('../components/pages/projects');
+                  return { Component: ProjectsPage };
+                },
+              },
+              {
+                path: '/boards',
+                lazy: async () => {
+                  const { BoardsPage } = await import('../components/pages/boards');
+                  return { Component: BoardsPage };
                 },
               },
             ],
