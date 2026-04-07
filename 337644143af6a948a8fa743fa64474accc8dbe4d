@@ -1,0 +1,27 @@
+apps/frontend/src/components/pages/dashboard.tsx
+  682c2f65b11d2d64 4,8,13,15,55,123-128
+apps/frontend/src/components/pages/dashboard/create-issue-dialog.tsx
+  682c2f65b11d2d64 1-158
+apps/frontend/src/components/pages/dashboard/use-create-issue-mutation.ts
+  682c2f65b11d2d64 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "337644143af6a948a8fa743fa64474accc8dbe4d",
+  "prompts": {
+    "682c2f65b11d2d64": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a15c1721-3d2a-44e9-98e7-ab7c76158f2e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 235,
+      "total_deletions": 28,
+      "accepted_lines": 207,
+      "overriden_lines": 0
+    }
+  }
+}
