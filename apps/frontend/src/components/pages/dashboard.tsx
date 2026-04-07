@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Clock, Filter, MoreHorizontal, Plus, Search, User } from 'lucide-react';
+import { CreateIssueDialog } from './dashboard/create-issue-dialog';
 import { STATUS_CONFIG, STATUS_ORDER, TABS } from './dashboard/dashboard-constants';
 import { DashboardKanbanColumn } from './dashboard/dashboard-kanban-column';
 import type { DashboardColumn } from './dashboard/dashboard-types';
+import { useCreateIssueMutation } from './dashboard/use-create-issue-mutation';
 import { useIssuesQuery } from './dashboard/use-issues-query';
 
 export function DashboardPage() {
   const [search, setSearch] = useState('');
+  const [createOpen, setCreateOpen] = useState(false);
   const { data: issues = [], isLoading, error } = useIssuesQuery();
+  const createIssue = useCreateIssueMutation();
 
   const normalizedSearch = search.trim().toLowerCase();
   const visibleIssues = normalizedSearch
@@ -48,6 +52,7 @@ export function DashboardPage() {
           <Button
             size="sm"
             className="gap-1.5 rounded-[10px] border-(--accent)/20 bg-(--accent)/15 text-(--accent) hover:bg-(--accent)/25"
+            onClick={() => setCreateOpen(true)}
           >
             <Plus className="size-3" />
             Create issue
@@ -115,6 +120,12 @@ export function DashboardPage() {
           </div>
         )}
       </div>
+
+      <CreateIssueDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onSubmit={async (data) => { await createIssue.mutateAsync(data); }}
+      />
     </div>
   );
 }
