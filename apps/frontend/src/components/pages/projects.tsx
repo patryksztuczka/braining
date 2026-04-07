@@ -10,7 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { MoreHorizontal, Plus, Search } from 'lucide-react';
+import { FolderSync, MoreHorizontal, Plus, Search } from 'lucide-react';
+import { ImportNotesDialog } from './projects/import-notes-dialog';
 
 type Project = {
   id: string;
@@ -212,6 +213,7 @@ function CreateProjectDialog({
 export function ProjectsPage() {
   const [search, setSearch] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
 
   const normalizedSearch = search.trim().toLowerCase();
   const visibleProjects = normalizedSearch
@@ -236,7 +238,16 @@ export function ProjectsPage() {
             className="font-dm text-heading h-8 w-full rounded-lg border border-white/5 bg-white/4 pr-3 pl-8 text-[12px] transition-all placeholder:text-white/25 focus:border-(--accent)/20 focus:outline-none"
           />
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="ghost"
+            className="gap-1.5 rounded-[10px] text-white/40 hover:bg-white/[0.04] hover:text-white/60"
+            onClick={() => setImportOpen(true)}
+          >
+            <FolderSync className="size-3" />
+            Import from Notes
+          </Button>
           <Button
             size="sm"
             className="gap-1.5 rounded-[10px] border-(--accent)/20 bg-(--accent)/15 text-(--accent) hover:bg-(--accent)/25"
@@ -277,6 +288,7 @@ export function ProjectsPage() {
       </div>
 
       <CreateProjectDialog open={createOpen} onOpenChange={setCreateOpen} />
+      <ImportNotesDialog open={importOpen} onOpenChange={setImportOpen} />
     </div>
   );
 }
