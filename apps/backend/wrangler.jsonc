@@ -11,6 +11,12 @@
       "migrations_dir": "drizzle/migrations",
     },
   ],
+  "r2_buckets": [
+    {
+      "binding": "R2_BUCKET",
+      "bucket_name": "obsidian-vault",
+    },
+  ],
   "compatibility_flags": ["nodejs_compat"],
 
   // "vars": {
@@ -20,12 +26,6 @@
   //   {
   //     "binding": "MY_KV_NAMESPACE",
   //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  //   }
-  // ],
-  // "r2_buckets": [
-  //   {
-  //     "binding": "MY_BUCKET",
-  //     "bucket_name": "my-bucket"
   //   }
   // ],
   // "d1_databases": [

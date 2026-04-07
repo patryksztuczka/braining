@@ -2,12 +2,12 @@ import path from 'node:path';
 import { cloudflareTest, readD1Migrations } from '@cloudflare/vitest-pool-workers';
 import { defineConfig } from 'vitest/config';
 
-export default defineConfig(async () => {
+export default (async () => {
   // Read all migrations in the `migrations` directory
   const migrationsPath = path.join(__dirname, 'drizzle', 'migrations');
   const migrations = await readD1Migrations(migrationsPath);
 
-  return {
+  return defineConfig({
     plugins: [
       cloudflareTest({
         wrangler: { configPath: './wrangler.jsonc' },
@@ -23,6 +23,7 @@ export default defineConfig(async () => {
             TEST_MIGRATIONS: migrations,
           },
           d1Databases: ['DATABASE'],
+          r2Buckets: ['R2_BUCKET'],
         },
       }),
     ],
@@ -36,5 +37,5 @@ export default defineConfig(async () => {
       setupFiles: ['test/apply-migrations.ts'],
       include: ['src/**/*.test.ts', 'src/**/*.spec.ts', 'test/**/*.test.ts', 'test/**/*.spec.ts'],
     },
-  };
-});
+  });
+})();
