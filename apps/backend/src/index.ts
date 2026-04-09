@@ -5,6 +5,7 @@ import { auth } from './lib/auth';
 import { cors } from 'hono/cors';
 import { IssuesRoutes } from './modules/issues/issues-routes';
 import { ResourcesRoutes } from './modules/resources/resources-routes';
+import { resolveCorsOrigin } from './lib/origins';
 
 const app = new Hono<{
   Bindings: {
@@ -15,7 +16,7 @@ const app = new Hono<{
 app.use(
   '/api/*',
   cors({
-    origin: 'http://localhost:5173',
+    origin: (origin) => resolveCorsOrigin(origin),
     allowHeaders: ['Content-Type', 'Authorization'],
     allowMethods: ['POST', 'GET', 'PATCH', 'DELETE', 'OPTIONS'],
     exposeHeaders: ['Content-Length'],

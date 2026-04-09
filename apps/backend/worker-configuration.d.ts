@@ -13,8 +13,10 @@ declare namespace Cloudflare {
 		CLOUDFLARE_D1_TOKEN: string;
 		BETTER_AUTH_SECRET: string;
 		BETTER_AUTH_URL: string;
+		CORS_ORIGIN: string;
 		GITHUB_CLIENT_ID: string;
 		GITHUB_CLIENT_SECRET: string;
+		TRUSTED_ORIGINS: string;
 	}
 }
 interface CloudflareBindings extends Cloudflare.Env {}
@@ -22,7 +24,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "CLOUDFLARE_ACCOUNT_ID" | "CLOUDFLARE_DATABASE_ID" | "CLOUDFLARE_D1_TOKEN" | "BETTER_AUTH_SECRET" | "BETTER_AUTH_URL" | "GITHUB_CLIENT_ID" | "GITHUB_CLIENT_SECRET">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "CLOUDFLARE_ACCOUNT_ID" | "CLOUDFLARE_DATABASE_ID" | "CLOUDFLARE_D1_TOKEN" | "BETTER_AUTH_SECRET" | "BETTER_AUTH_URL" | "CORS_ORIGIN" | "GITHUB_CLIENT_ID" | "GITHUB_CLIENT_SECRET" | "TRUSTED_ORIGINS">> {}
 }
 
 // Begin runtime types

@@ -3,6 +3,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '../db/client';
 import { accounts, sessions, users, verifications } from '../db/schema';
+import { getTrustedOrigins } from './origins';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -14,7 +15,7 @@ export const auth = betterAuth({
       verification: verifications,
     },
   }),
-  trustedOrigins: ['http://localhost:5173'],
+  trustedOrigins: getTrustedOrigins(),
   socialProviders: {
     github: {
       clientId: env.GITHUB_CLIENT_ID,
