@@ -13,32 +13,8 @@ import {
   Check,
   FolderSync,
   BookOpen,
-  Link2,
 } from 'lucide-react';
-
-type KnowledgeResource = {
-  name: string;
-  prefix: string;
-  noteCount: number;
-  lastModified: string;
-  connected: boolean;
-  connectedProjectKey?: string;
-};
-
-const MOCK_RESOURCES: KnowledgeResource[] = [
-  { name: 'system-design', prefix: 'system-design/', noteCount: 34, lastModified: 'Apr 6, 2026', connected: true, connectedProjectKey: 'SD' },
-  { name: 'kubernetes', prefix: 'kubernetes/', noteCount: 28, lastModified: 'Apr 5, 2026', connected: false },
-  { name: 'tests', prefix: 'tests/', noteCount: 15, lastModified: 'Apr 4, 2026', connected: false },
-  { name: 'docker', prefix: 'docker/', noteCount: 22, lastModified: 'Apr 3, 2026', connected: false },
-  { name: 'aws', prefix: 'aws/', noteCount: 41, lastModified: 'Apr 2, 2026', connected: true, connectedProjectKey: 'AWS' },
-  { name: 'typescript', prefix: 'typescript/', noteCount: 53, lastModified: 'Apr 1, 2026', connected: false },
-  { name: 'react', prefix: 'react/', noteCount: 37, lastModified: 'Mar 30, 2026', connected: false },
-  { name: 'databases', prefix: 'databases/', noteCount: 19, lastModified: 'Mar 28, 2026', connected: false },
-  { name: 'networking', prefix: 'networking/', noteCount: 12, lastModified: 'Mar 25, 2026', connected: false },
-  { name: 'security', prefix: 'security/', noteCount: 26, lastModified: 'Mar 22, 2026', connected: false },
-  { name: 'algorithms', prefix: 'algorithms/', noteCount: 44, lastModified: 'Mar 20, 2026', connected: false },
-  { name: 'devops', prefix: 'devops/', noteCount: 18, lastModified: 'Mar 18, 2026', connected: false },
-];
+import { useResourcesQuery } from './use-resources-query';
 
 function formatResourceName(name: string): string {
   return name
@@ -96,27 +72,30 @@ export function ImportNotesDialog({
 }) {
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const { data: resources = [], isLoading, isError, error } = useResourcesQuery(open);
 
   const normalizedSearch = search.trim().toLowerCase();
 
   const filtered = useMemo(
     () =>
       normalizedSearch
-        ? MOCK_RESOURCES.filter((r) =>
-            formatResourceName(r.name).toLowerCase().includes(normalizedSearch),
+        ? resources.filter(
+            (resource) =>
+              formatResourceName(resource.name).toLowerCase().includes(normalizedSearch) ||
+              resource.prefix.toLowerCase().includes(normalizedSearch),
           )
-        : MOCK_RESOURCES,
-    [normalizedSearch],
+        : resources,
+    [normalizedSearch, resources],
   );
 
-  const available = filtered.filter((r) => !r.connected);
-  const allAvailableSelected = available.length > 0 && available.every((r) => selected.has(r.name));
+  const allAvailableSelected =
+    filtered.length > 0 && filtered.every((resource) => selected.has(resource.prefix));
 
-  function toggleResource(name: string) {
+  function toggleResource(prefix: string) {
     setSelected((prev) => {
       const next = new Set(prev);
-      if (next.has(name)) next.delete(name);
-      else next.add(name);
+      if (next.has(prefix)) next.delete(prefix);
+      else next.add(prefix);
       return next;
     });
   }
@@ -125,7 +104,7 @@ export function ImportNotesDialog({
     if (allAvailableSelected) {
       setSelected(new Set());
     } else {
-      setSelected(new Set(available.map((r) => r.name)));
+      setSelected(new Set(filtered.map((resource) => resource.prefix)));
     }
   }
 
@@ -143,8 +122,6 @@ export function ImportNotesDialog({
       setSearch('');
     }
   }
-
-  const connectedCount = MOCK_RESOURCES.filter((r) => r.connected).length;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -171,16 +148,9 @@ export function ImportNotesDialog({
         {/* Status bar */}
         <div className="flex shrink-0 items-center gap-3 border-t border-b border-white/[0.05] bg-white/[0.015] px-5 py-2.5">
           <div className="flex items-center gap-1.5">
-            <div className="size-1.5 rounded-full bg-emerald-400/60" />
-            <span className="font-dm text-[11px] text-white/40">
-              {connectedCount} connected
-            </span>
-          </div>
-          <div className="h-2.5 w-px bg-white/[0.06]" />
-          <div className="flex items-center gap-1.5">
             <div className="size-1.5 rounded-full bg-white/20" />
             <span className="font-dm text-[11px] text-white/40">
-              {MOCK_RESOURCES.length - connectedCount} available
+              {isLoading ? 'Loading resources...' : `${resources.length} directories`}
             </span>
           </div>
           {selected.size > 0 && (
@@ -208,7 +178,7 @@ export function ImportNotesDialog({
         </div>
 
         {/* Select all toggle */}
-        {available.length > 1 && (
+        {filtered.length > 1 && !isLoading && !isError && (
           <div className="shrink-0 px-5 pb-1">
             <button
               type="button"
@@ -219,76 +189,71 @@ export function ImportNotesDialog({
                 checked={allAvailableSelected}
                 onChange={toggleAll}
               />
-              {allAvailableSelected ? 'Deselect all' : 'Select all available'}
+              {allAvailableSelected ? 'Deselect all' : 'Select all'}
             </button>
           </div>
         )}
 
         {/* Resource list */}
         <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-3">
-          <div className="space-y-0.5">
-            {filtered.map((resource, index) => {
-              const isSelected = selected.has(resource.name);
+          {isLoading ? (
+            <div className="py-8 text-center">
+              <p className="font-dm text-[13px] text-white/25">Loading directories...</p>
+            </div>
+          ) : isError ? (
+            <div className="py-8 text-center">
+              <p className="font-dm text-[13px] text-red-400/80">
+                {error instanceof Error ? error.message : 'Failed to load resources'}
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-0.5">
+              {filtered.map((resource, index) => {
+                const isSelected = selected.has(resource.prefix);
 
-              return (
-                <button
-                  type="button"
-                  key={resource.name}
-                  disabled={resource.connected}
-                  onClick={() => !resource.connected && toggleResource(resource.name)}
-                  className={`motion-safe:animate-stagger-in group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition-all ${
-                    resource.connected
-                      ? 'cursor-default opacity-50'
-                      : isSelected
-                        ? 'bg-(--accent)/[0.06]'
-                        : 'hover:bg-white/[0.03]'
-                  }`}
-                  style={{ animationDelay: `${index * 30}ms` }}
-                >
-                  <ResourceCheckbox
-                    checked={isSelected}
-                    onChange={() => toggleResource(resource.name)}
-                    disabled={resource.connected}
-                  />
+                return (
+                  <button
+                    type="button"
+                    key={resource.prefix}
+                    onClick={() => toggleResource(resource.prefix)}
+                    className={`motion-safe:animate-stagger-in group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition-all ${
+                      isSelected ? 'bg-(--accent)/[0.06]' : 'hover:bg-white/[0.03]'
+                    }`}
+                    style={{ animationDelay: `${index * 30}ms` }}
+                  >
+                    <ResourceCheckbox
+                      checked={isSelected}
+                      onChange={() => toggleResource(resource.prefix)}
+                    />
 
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03]">
-                    <BookOpen className="size-3.5 text-white/30" />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-dm truncate text-[13px] font-medium text-white/80">
-                        {formatResourceName(resource.name)}
-                      </span>
-                      <span className="font-mono shrink-0 text-[10px] text-white/20">
-                        {generateKey(resource.name)}
-                      </span>
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03]">
+                      <BookOpen className="size-3.5 text-white/30" />
                     </div>
-                    <div className="font-dm mt-0.5 flex items-center gap-2 text-[11px] text-white/25">
-                      <span>{resource.noteCount} notes</span>
-                      <span>·</span>
-                      <span>{resource.lastModified}</span>
-                    </div>
-                  </div>
 
-                  {resource.connected && (
-                    <div className="flex shrink-0 items-center gap-1 rounded-md bg-emerald-500/[0.08] px-2 py-0.5">
-                      <Link2 className="size-2.5 text-emerald-400/60" />
-                      <span className="font-dm text-[10px] font-medium text-emerald-400/60">
-                        Connected
-                      </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-dm truncate text-[13px] font-medium text-white/80">
+                          {formatResourceName(resource.name)}
+                        </span>
+                        <span className="font-mono shrink-0 text-[10px] text-white/20">
+                          {generateKey(resource.name)}
+                        </span>
+                      </div>
+                      <div className="font-mono mt-0.5 text-[11px] text-white/25">
+                        {resource.prefix}
+                      </div>
                     </div>
-                  )}
-                </button>
-              );
-            })}
+                  </button>
+                );
+              })}
 
-            {filtered.length === 0 && (
-              <div className="py-8 text-center">
-                <p className="font-dm text-[13px] text-white/25">No resources found</p>
-              </div>
-            )}
-          </div>
+              {filtered.length === 0 && (
+                <div className="py-8 text-center">
+                  <p className="font-dm text-[13px] text-white/25">No resources found</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Footer */}
