@@ -18,6 +18,11 @@
     },
   ],
   "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "BETTER_AUTH_URL": "https://brainingapi.patryksztuczka.com",
+    "CORS_ORIGIN": "https://braining.patryksztuczka.com",
+    "TRUSTED_ORIGINS": "https://braining.patryksztuczka.com",
+  },
 
   // "vars": {
   //   "MY_VAR": "my-variable"
