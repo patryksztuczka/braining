@@ -22,10 +22,4 @@ export const auth = betterAuth({
       clientSecret: env.GITHUB_CLIENT_SECRET,
     },
   },
-  advanced: {
-    defaultCookieAttributes: {
-      sameSite: 'None',
-      secure: true,
-    },
-  },
 });
