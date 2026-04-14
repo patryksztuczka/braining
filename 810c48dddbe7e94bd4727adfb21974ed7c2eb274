@@ -1,0 +1,36 @@
+apps/backend/wrangler.jsonc
+  73b46ec5b71a34d5 21-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "810c48dddbe7e94bd4727adfb21974ed7c2eb274",
+  "prompts": {
+    "6a7b7760553c343a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "943e83ff-980a-48bf-81e2-5eb68faf3b4d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    },
+    "73b46ec5b71a34d5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_2727977b8ffeOBdVPJBXPBKyU9",
+        "model": "openai/gpt-5.4"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    }
+  }
+}
