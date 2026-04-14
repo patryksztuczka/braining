@@ -12,9 +12,9 @@ import { Avatar } from './avatar';
 
 export function DashboardHeader() {
   const { data: session } = useSession();
-  const userName = session?.user.name || session?.user.email || 'User';
-  const userEmail = session?.user.email || '';
-  const userImage = session?.user.image;
+  const userName = session?.user?.name || session?.user?.email || 'User';
+  const userEmail = session?.user?.email || '';
+  const userImage = session?.user?.image;
 
   return (
     <div className="flex h-14 shrink-0 items-center justify-end px-5">

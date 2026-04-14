@@ -9,7 +9,7 @@ export function GuestOnlyRoute() {
     return <AuthGuardSkeleton />;
   }
 
-  if (session) {
+  if (session?.user) {
     return <Navigate to="/" replace />;
   }
 

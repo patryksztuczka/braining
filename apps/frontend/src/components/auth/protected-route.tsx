@@ -9,7 +9,7 @@ export function ProtectedRoute() {
     return <AuthGuardSkeleton />;
   }
 
-  if (!session) {
+  if (!session?.user) {
     return <Navigate to="/sign-in" replace />;
   }
 
