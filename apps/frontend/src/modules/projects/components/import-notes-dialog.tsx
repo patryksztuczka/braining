@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { BookOpen, Download, FolderSync, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -7,61 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  Search,
-  Download,
-  Check,
-  FolderSync,
-  BookOpen,
-} from 'lucide-react';
-import { useResourcesQuery } from './use-resources-query';
-
-function formatResourceName(name: string): string {
-  return name
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
-function generateKey(name: string): string {
-  const words = name.split('-');
-  if (words.length === 1) return words[0].slice(0, 3).toUpperCase();
-  return words.map((w) => w[0]).join('').toUpperCase().slice(0, 5);
-}
-
-function ResourceCheckbox({
-  checked,
-  onChange,
-  disabled,
-}: {
-  checked: boolean;
-  onChange: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      role="checkbox"
-      aria-checked={checked}
-      disabled={disabled}
-      onClick={onChange}
-      className={`flex size-4 shrink-0 items-center justify-center rounded-[5px] border transition-all duration-150 ${
-        disabled
-          ? 'cursor-default border-white/[0.06] bg-white/[0.02]'
-          : checked
-            ? 'border-(--accent)/40 bg-(--accent)/20'
-            : 'border-white/[0.1] bg-white/[0.03] hover:border-white/[0.15] hover:bg-white/[0.05]'
-      }`}
-    >
-      {(checked || disabled) && (
-        <Check
-          className={`size-2.5 ${disabled ? 'text-white/20' : 'text-(--accent)'}`}
-          strokeWidth={3}
-        />
-      )}
-    </button>
-  );
-}
+import { useResourcesQuery } from '../hooks/use-resources-query';
+import { formatResourceName, generateKey } from '../lib/resource-name';
+import { ResourceCheckbox } from './resource-checkbox';
 
 export function ImportNotesDialog({
   open,
@@ -109,7 +58,6 @@ export function ImportNotesDialog({
   }
 
   function handleImport() {
-    // TODO: wire up to real API
     onOpenChange(false);
     setSelected(new Set());
     setSearch('');
@@ -145,7 +93,6 @@ export function ImportNotesDialog({
           </div>
         </DialogHeader>
 
-        {/* Status bar */}
         <div className="flex shrink-0 items-center gap-3 border-t border-b border-white/[0.05] bg-white/[0.015] px-5 py-2.5">
           <div className="flex items-center gap-1.5">
             <div className="size-1.5 rounded-full bg-white/20" />
@@ -163,7 +110,6 @@ export function ImportNotesDialog({
           )}
         </div>
 
-        {/* Search */}
         <div className="shrink-0 px-5 pt-3 pb-2">
           <div className="relative">
             <Search className="absolute top-1/2 left-2.5 size-3 -translate-y-1/2 text-white/20" />
@@ -177,7 +123,6 @@ export function ImportNotesDialog({
           </div>
         </div>
 
-        {/* Select all toggle */}
         {filtered.length > 1 && !isLoading && !isError && (
           <div className="shrink-0 px-5 pb-1">
             <button
@@ -185,16 +130,12 @@ export function ImportNotesDialog({
               onClick={toggleAll}
               className="font-dm flex items-center gap-2 py-1 text-[11px] text-white/30 transition-colors hover:text-white/50"
             >
-              <ResourceCheckbox
-                checked={allAvailableSelected}
-                onChange={toggleAll}
-              />
+              <ResourceCheckbox checked={allAvailableSelected} onChange={toggleAll} />
               {allAvailableSelected ? 'Deselect all' : 'Select all'}
             </button>
           </div>
         )}
 
-        {/* Resource list */}
         <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-3">
           {isLoading ? (
             <div className="py-8 text-center">
@@ -235,11 +176,11 @@ export function ImportNotesDialog({
                         <span className="font-dm truncate text-[13px] font-medium text-white/80">
                           {formatResourceName(resource.name)}
                         </span>
-                        <span className="font-mono shrink-0 text-[10px] text-white/20">
+                        <span className="shrink-0 font-mono text-[10px] text-white/20">
                           {generateKey(resource.name)}
                         </span>
                       </div>
-                      <div className="font-mono mt-0.5 text-[11px] text-white/25">
+                      <div className="mt-0.5 font-mono text-[11px] text-white/25">
                         {resource.prefix}
                       </div>
                     </div>
@@ -256,7 +197,6 @@ export function ImportNotesDialog({
           )}
         </div>
 
-        {/* Footer */}
         <div className="flex shrink-0 items-center justify-between border-t border-white/[0.05] bg-white/[0.02] px-5 py-3.5">
           <Button
             type="button"

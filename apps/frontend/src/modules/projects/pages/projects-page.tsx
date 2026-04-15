@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Link } from 'react-router';
 import { FolderSync, MoreHorizontal, Plus, Search } from 'lucide-react';
-import { ImportNotesDialog } from './projects/import-notes-dialog';
-import { CreateProjectDialog } from './projects/create-project-dialog';
-import { useProjectsQuery } from './projects/use-projects-query';
+import { Button } from '@/components/ui/button';
+import { CreateProjectDialog } from '../components/create-project-dialog';
+import { ImportNotesDialog } from '../components/import-notes-dialog';
+import { useProjectsQuery } from '../hooks/use-projects-query';
 
 export function ProjectsPage() {
   const [search, setSearch] = useState('');
@@ -69,21 +70,29 @@ export function ProjectsPage() {
             </div>
           ) : visibleProjects.length > 0 ? (
             visibleProjects.map((project, index) => (
-              <div
+              <Link
+                to={`/projects/${project.id}`}
                 key={project.id}
                 className="motion-safe:animate-stagger-in group flex h-8 items-center border-b border-white/[0.03] px-3 transition-colors last:border-0 hover:bg-white/[0.03]"
                 style={{ animationDelay: `${index * 50 + 100}ms` }}
               >
-                <span className="font-mono text-[10px] text-white/25 mr-2.5">{project.key}</span>
-                <span className="font-dm text-[13px] font-medium text-white/85 truncate">
+                <span className="mr-2.5 font-mono text-[10px] text-white/25">{project.key}</span>
+                <span className="font-dm truncate text-[13px] font-medium text-white/85">
                   {project.name}
                 </span>
                 <div className="ml-auto flex shrink-0 justify-end">
-                  <button className="flex size-6 items-center justify-center rounded-lg text-white/20 opacity-0 transition-all group-hover:opacity-100 hover:bg-white/[0.06] hover:text-white/50">
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }}
+                    className="flex size-6 items-center justify-center rounded-lg text-white/20 opacity-0 transition-all group-hover:opacity-100 hover:bg-white/[0.06] hover:text-white/50"
+                  >
                     <MoreHorizontal className="size-3.5" />
                   </button>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <div className="py-12 text-center">

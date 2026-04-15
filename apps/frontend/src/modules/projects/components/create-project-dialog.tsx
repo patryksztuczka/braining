@@ -9,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useCreateProjectMutation } from './use-create-project-mutation';
-import { createProjectSchema, type CreateProjectFormData } from './create-project-schema';
+import { useCreateProjectMutation } from '../hooks/use-create-project-mutation';
+import { createProjectSchema, type CreateProjectFormData } from '../schemas/create-project-schema';
 
 export function CreateProjectDialog({
   open,
