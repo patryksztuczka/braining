@@ -1,0 +1,58 @@
+apps/backend/src/modules/projects/projects-service.ts
+  3103ac8a0b789b6b 1-53
+apps/frontend/src/components/pages/projects/use-create-project-mutation.ts
+  3103ac8a0b789b6b 1-13
+apps/backend/src/modules/projects/projects-repository.ts
+  3103ac8a0b789b6b 1-40
+apps/frontend/src/data-access-layer/projects.ts
+  3103ac8a0b789b6b 1-8,10-64
+apps/backend/src/db/schema.ts
+  3103ac8a0b789b6b 2,111-130,135,159-165,168
+apps/backend/src/modules/projects/projects-routes.ts
+  3103ac8a0b789b6b 1-73
+apps/frontend/src/components/pages/projects/use-projects-query.ts
+  3103ac8a0b789b6b 1-9
+apps/frontend/src/components/pages/projects.tsx
+  3103ac8a0b789b6b 1,5-6,13-14,17,20,22,60-70
+apps/backend/src/modules/projects/projects-schemas.ts
+  3103ac8a0b789b6b 1-14
+apps/frontend/src/components/pages/projects/create-project-dialog.tsx
+  3103ac8a0b789b6b 1-38,40-145
+apps/frontend/src/components/pages/projects/create-project-schema.ts
+  3103ac8a0b789b6b 1-14
+apps/backend/src/index.ts
+  3103ac8a0b789b6b 7,32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "22ea148402cc45ccc0f86431c2e2a6d4b1388fb6",
+  "prompts": {
+    "3103ac8a0b789b6b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "633873b8-622f-481b-944a-26e877eed78f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 1811,
+      "total_deletions": 429,
+      "accepted_lines": 474,
+      "overriden_lines": 2
+    },
+    "6a7b7760553c343a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "943e83ff-980a-48bf-81e2-5eb68faf3b4d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    }
+  }
+}
