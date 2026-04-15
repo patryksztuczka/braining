@@ -1,0 +1,87 @@
+apps/frontend/src/modules/projects/pages/projects-page.tsx
+  aeb968cd55ad97b5 6,12,43,46,79-81,108-111
+apps/frontend/src/modules/projects/components/import-notes-dialog.tsx
+  aeb968cd55ad97b5 1,11,13,15,20,24,28,30-44,74-78,80-84,88-90,96,98,101-102,119,162,194,227-244,248,253-255
+apps/backend/src/modules/projects/projects-routes.ts
+  aeb968cd55ad97b5 4,8-12,14-21,27,31,55-98
+apps/frontend/src/modules/projects/hooks/use-create-projects-from-notes-mutation.ts
+  aeb968cd55ad97b5 2-5,7,11
+apps/backend/drizzle/migrations/meta/_journal.json
+  aeb968cd55ad97b5 32-38
+apps/backend/src/index.ts
+  aeb968cd55ad97b5 22
+apps/backend/drizzle/migrations/0004_fresh_saracen.sql
+  aeb968cd55ad97b5 1-12
+apps/backend/drizzle/migrations/meta/0004_snapshot.json
+  aeb968cd55ad97b5 1-618
+apps/frontend/src/modules/projects/pages/project-details-page.tsx
+  aeb968cd55ad97b5 137
+apps/frontend/src/modules/projects/hooks/use-project-resources-query.ts
+  aeb968cd55ad97b5 1-10
+apps/backend/src/db/schema.ts
+  aeb968cd55ad97b5 159-180,185-194,202
+apps/backend/src/modules/projects/project-resources-repository.ts
+  aeb968cd55ad97b5 1-37
+apps/frontend/src/modules/projects/hooks/use-set-project-resources-mutation.ts
+  aeb968cd55ad97b5 1-18
+apps/backend/src/modules/projects/projects-schemas.ts
+  aeb968cd55ad97b5 15-40
+apps/frontend/src/components/ui/checkbox.tsx
+  aeb968cd55ad97b5 3,6,10,13,16,23,31
+apps/backend/src/modules/projects/projects-service.ts
+  aeb968cd55ad97b5 1-2,4,6,17-25,30,66-194,197-208,210-214
+apps/backend/wrangler.jsonc
+  4990f719d7447f40 18
+apps/frontend/src/modules/projects/hooks/use-project-notes-query.ts
+  aeb968cd55ad97b5 2,4,10
+apps/frontend/src/modules/projects/components/create-projects-from-notes-dialog.tsx
+  aeb968cd55ad97b5 12,16,27,33,77,89,95,99,114,225,227-229,237,247,251-253
+apps/frontend/src/data-access-layer/projects.ts
+  aeb968cd55ad97b5 29,46-155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "1f616874e962291c8af96f50e674d1dca2ae9c40",
+  "prompts": {
+    "4990f719d7447f40": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "576f0432-6c64-42ef-84a6-079ecaaff312",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 493,
+      "overriden_lines": 0
+    },
+    "6a7b7760553c343a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "943e83ff-980a-48bf-81e2-5eb68faf3b4d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    },
+    "aeb968cd55ad97b5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7945e735-2f5a-4b26-a5e4-39962b934bc6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 4187,
+      "total_deletions": 132,
+      "accepted_lines": 1241,
+      "overriden_lines": 0
+    }
+  }
+}
