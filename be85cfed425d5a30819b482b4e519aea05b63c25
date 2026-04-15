@@ -1,0 +1,47 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "be85cfed425d5a30819b482b4e519aea05b63c25",
+  "prompts": {
+    "4990f719d7447f40": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "576f0432-6c64-42ef-84a6-079ecaaff312",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 191,
+      "overriden_lines": 0
+    },
+    "6a7b7760553c343a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "943e83ff-980a-48bf-81e2-5eb68faf3b4d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    },
+    "aeb968cd55ad97b5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7945e735-2f5a-4b26-a5e4-39962b934bc6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 33,
+      "overriden_lines": 0
+    }
+  }
+}
