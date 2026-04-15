@@ -1,0 +1,68 @@
+apps/frontend/src/modules/projects/components/notes-list.tsx
+  4990f719d7447f40 1-41
+apps/frontend/src/modules/projects/components/resource-tab.tsx
+  4990f719d7447f40 1-37
+apps/frontend/src/modules/projects/hooks/use-create-project-mutation.ts
+  4990f719d7447f40 1-13
+apps/frontend/src/modules/projects/lib/format-date.ts
+  4990f719d7447f40 1-27
+apps/frontend/src/modules/projects/hooks/use-project-notes-query.ts
+  4990f719d7447f40 1-20
+apps/frontend/src/providers/router.tsx
+  4990f719d7447f40 39-41,46-53
+apps/frontend/src/modules/projects/hooks/use-projects-query.ts
+  4990f719d7447f40 1-9
+apps/frontend/src/modules/projects/components/import-notes-dialog.tsx
+  4990f719d7447f40 1-224
+apps/frontend/src/modules/projects/lib/resource-name.ts
+  4990f719d7447f40 1-16
+apps/frontend/src/modules/projects/components/empty-notes-state.tsx
+  4990f719d7447f40 1-40
+apps/frontend/src/modules/projects/components/create-project-dialog.tsx
+  4990f719d7447f40 1-145
+apps/frontend/src/modules/projects/pages/projects-page.tsx
+  4990f719d7447f40 2,4-7,73-74,79-80,84-91,95
+apps/frontend/src/modules/projects/components/resource-checkbox.tsx
+  4990f719d7447f40 1-35
+apps/frontend/src/modules/projects/hooks/use-project-query.ts
+  4990f719d7447f40 1-22
+apps/frontend/src/modules/projects/hooks/use-resources-query.ts
+  4990f719d7447f40 1-10
+apps/frontend/src/modules/projects/schemas/create-project-schema.ts
+  4990f719d7447f40 1-14
+apps/frontend/src/modules/projects/pages/project-details-page.tsx
+  4990f719d7447f40 1-140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "c74a7bd47b4465e3a4212d137e7b7dd6c2b250f3",
+  "prompts": {
+    "4990f719d7447f40": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "576f0432-6c64-42ef-84a6-079ecaaff312",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 2275,
+      "total_deletions": 272,
+      "accepted_lines": 915,
+      "overriden_lines": 0
+    },
+    "6a7b7760553c343a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "943e83ff-980a-48bf-81e2-5eb68faf3b4d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Patryk Sztuczka",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    }
+  }
+}
