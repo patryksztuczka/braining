@@ -24,7 +24,12 @@
     "CORS_ORIGIN": "https://braining.patryksztuczka.com",
     "TRUSTED_ORIGINS": "https://braining.patryksztuczka.com",
   },
-
+  "kv_namespaces": [
+    {
+      "binding": "BRAINING_KV",
+      "id": "612ae83c5519427fb77c0ec1a9887c8e",
+    },
+  ],
   // "vars": {
   //   "MY_VAR": "my-variable"
   // },
