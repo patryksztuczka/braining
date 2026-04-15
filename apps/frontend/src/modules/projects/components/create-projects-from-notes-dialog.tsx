@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { BookOpen, Download, FolderSync, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -8,40 +9,28 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useProjectResourcesQuery } from '../hooks/use-project-resources-query';
+import { useCreateProjectsFromNotesMutation } from '../hooks/use-create-projects-from-notes-mutation';
 import { useResourcesQuery } from '../hooks/use-resources-query';
-import { useSetProjectResourcesMutation } from '../hooks/use-set-project-resources-mutation';
 import { formatResourceName, generateKey } from '../lib/resource-name';
-import { Checkbox } from '@/components/ui/checkbox';
 
-export function ImportNotesDialog({
+export function CreateProjectsFromNotesDialog({
   open,
   onOpenChange,
-  projectId,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  projectId: string | undefined;
 }) {
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const { data: resources = [], isLoading, isError, error } = useResourcesQuery(open);
-  const { data: linkedResources = [], isLoading: linkedLoading } = useProjectResourcesQuery(
-    projectId,
-    open,
-  );
-  const setResourcesMutation = useSetProjectResourcesMutation(projectId);
+  const createMutation = useCreateProjectsFromNotesMutation();
 
   useEffect(() => {
     if (!open) {
-      return;
+      setSearch('');
     }
-
-    if (!linkedLoading) {
-      setSelected(new Set(linkedResources.map((resource) => resource.prefix)));
-    }
-  }, [open, linkedLoading, linkedResources]);
+  }, [open, createMutation]);
 
   const normalizedSearch = search.trim().toLowerCase();
 
@@ -85,20 +74,29 @@ export function ImportNotesDialog({
     }
   }
 
-  async function handleImport() {
-    if (!projectId) return;
-    await setResourcesMutation.mutateAsync(Array.from(selected));
+  async function handleCreate() {
+    const items = resources
+      .filter((resource) => selected.has(resource.prefix))
+      .map((resource) => ({
+        name: formatResourceName(resource.name),
+        key: generateKey(resource.name),
+        description: '',
+        prefix: resource.prefix,
+      }));
+
+    if (items.length === 0) return;
+
+    await createMutation.mutateAsync(items);
     onOpenChange(false);
-    setSearch('');
+    setSelected(new Set());
   }
 
   function handleClose(value: boolean) {
-    if (setResourcesMutation.isPending) return;
+    if (createMutation.isPending) return;
     onOpenChange(value);
-    if (!value) setSearch('');
   }
 
-  const submitDisabled = !projectId || setResourcesMutation.isPending || linkedLoading || isLoading;
+  const submitDisabled = createMutation.isPending || isLoading || selected.size === 0;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -113,10 +111,10 @@ export function ImportNotesDialog({
             </div>
             <div>
               <DialogTitle className="font-dm text-[14px] font-semibold tracking-[-0.2px] text-white/90">
-                Import from Notes
+                Create from Notes
               </DialogTitle>
               <DialogDescription className="font-dm mt-0.5 text-[12px] text-white/35">
-                Link Obsidian directories to this project
+                Create a project for each selected directory
               </DialogDescription>
             </div>
           </div>
@@ -224,11 +222,11 @@ export function ImportNotesDialog({
         </div>
 
         <div className="flex shrink-0 items-center justify-between border-t border-white/[0.05] bg-white/[0.02] px-5 py-3.5">
-          {setResourcesMutation.isError ? (
-            <span className="font-dm text-[11px] text-red-400/80">
-              {setResourcesMutation.error instanceof Error
-                ? setResourcesMutation.error.message
-                : 'Failed to save'}
+          {createMutation.isError ? (
+            <span className="font-dm max-w-[60%] truncate text-[11px] text-red-400/80">
+              {createMutation.error instanceof Error
+                ? createMutation.error.message
+                : 'Failed to create projects'}
             </span>
           ) : (
             <Button
@@ -236,7 +234,7 @@ export function ImportNotesDialog({
               variant="ghost"
               size="sm"
               onClick={() => handleClose(false)}
-              disabled={setResourcesMutation.isPending}
+              disabled={createMutation.isPending}
               className="font-dm text-[12px] text-white/40 hover:bg-white/[0.04] hover:text-white/60"
             >
               Cancel
@@ -246,13 +244,13 @@ export function ImportNotesDialog({
             type="button"
             size="sm"
             disabled={submitDisabled}
-            onClick={handleImport}
+            onClick={handleCreate}
             className="font-dm gap-1.5 rounded-[10px] border-(--accent)/20 bg-(--accent)/15 text-[12px] text-(--accent) hover:bg-(--accent)/25 disabled:opacity-30"
           >
             <Download className="size-3" />
-            {setResourcesMutation.isPending
-              ? 'Saving...'
-              : `Save${selected.size > 0 ? ` (${selected.size})` : ''}`}
+            {createMutation.isPending
+              ? 'Creating...'
+              : `Create${selected.size > 0 ? ` (${selected.size})` : ''}`}
           </Button>
         </div>
       </DialogContent>

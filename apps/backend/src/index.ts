@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: (origin) => resolveCorsOrigin(origin),
     allowHeaders: ['Content-Type', 'Authorization'],
-    allowMethods: ['POST', 'GET', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowMethods: ['POST', 'GET', 'PATCH', 'DELETE', 'OPTIONS', 'PUT'],
     exposeHeaders: ['Content-Length'],
     maxAge: 600,
     credentials: true,

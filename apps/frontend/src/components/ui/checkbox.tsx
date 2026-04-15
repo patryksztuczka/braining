@@ -1,28 +1,26 @@
 import { Check } from 'lucide-react';
 
-export function ResourceCheckbox({
+export function Checkbox({
   checked,
-  onChange,
   disabled,
+  className,
 }: {
   checked: boolean;
-  onChange: () => void;
   disabled?: boolean;
+  className?: string;
 }) {
   return (
-    <button
-      type="button"
+    <span
       role="checkbox"
       aria-checked={checked}
-      disabled={disabled}
-      onClick={onChange}
+      aria-disabled={disabled || undefined}
       className={`flex size-4 shrink-0 items-center justify-center rounded-[5px] border transition-all duration-150 ${
         disabled
           ? 'cursor-default border-white/[0.06] bg-white/[0.02]'
           : checked
             ? 'border-(--accent)/40 bg-(--accent)/20'
             : 'border-white/[0.1] bg-white/[0.03] hover:border-white/[0.15] hover:bg-white/[0.05]'
-      }`}
+      } ${className ?? ''}`}
     >
       {(checked || disabled) && (
         <Check
@@ -30,6 +28,6 @@ export function ResourceCheckbox({
           strokeWidth={3}
         />
       )}
-    </button>
+    </span>
   );
 }

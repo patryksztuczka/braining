@@ -3,13 +3,13 @@ import { Link } from 'react-router';
 import { FolderSync, MoreHorizontal, Plus, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CreateProjectDialog } from '../components/create-project-dialog';
-import { ImportNotesDialog } from '../components/import-notes-dialog';
+import { CreateProjectsFromNotesDialog } from '../components/create-projects-from-notes-dialog';
 import { useProjectsQuery } from '../hooks/use-projects-query';
 
 export function ProjectsPage() {
   const [search, setSearch] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
-  const [importOpen, setImportOpen] = useState(false);
+  const [createFromNotesOpen, setCreateFromNotesOpen] = useState(false);
 
   const { data: projects = [], isLoading, isError, error } = useProjectsQuery();
 
@@ -40,10 +40,10 @@ export function ProjectsPage() {
             size="sm"
             variant="ghost"
             className="gap-1.5 rounded-[10px] text-white/40 hover:bg-white/[0.04] hover:text-white/60"
-            onClick={() => setImportOpen(true)}
+            onClick={() => setCreateFromNotesOpen(true)}
           >
             <FolderSync className="size-3" />
-            Import from Notes
+            Create from Notes
           </Button>
           <Button
             size="sm"
@@ -76,7 +76,9 @@ export function ProjectsPage() {
                 className="motion-safe:animate-stagger-in group flex h-8 items-center border-b border-white/[0.03] px-3 transition-colors last:border-0 hover:bg-white/[0.03]"
                 style={{ animationDelay: `${index * 50 + 100}ms` }}
               >
-                <span className="mr-2.5 font-mono text-[10px] text-white/25">{project.key}</span>
+                <span className="mr-2.5 inline-block w-10 shrink-0 font-mono text-[10px] tracking-wider text-white/25 uppercase">
+                  {project.key}
+                </span>
                 <span className="font-dm truncate text-[13px] font-medium text-white/85">
                   {project.name}
                 </span>
@@ -103,7 +105,10 @@ export function ProjectsPage() {
       </div>
 
       <CreateProjectDialog open={createOpen} onOpenChange={setCreateOpen} />
-      <ImportNotesDialog open={importOpen} onOpenChange={setImportOpen} />
+      <CreateProjectsFromNotesDialog
+        open={createFromNotesOpen}
+        onOpenChange={setCreateFromNotesOpen}
+      />
     </div>
   );
 }

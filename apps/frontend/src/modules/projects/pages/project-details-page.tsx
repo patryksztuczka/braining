@@ -134,7 +134,7 @@ export function ProjectDetailsPage() {
         </section>
       </div>
 
-      <ImportNotesDialog open={importOpen} onOpenChange={setImportOpen} />
+      <ImportNotesDialog open={importOpen} onOpenChange={setImportOpen} projectId={projectId} />
     </div>
   );
 }

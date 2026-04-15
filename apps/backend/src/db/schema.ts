@@ -156,9 +156,42 @@ export const issueRelations = relations(issues, ({ one }) => ({
   }),
 }));
 
-export const projectRelations = relations(projects, ({ one }) => ({
+export const projectResources = sqliteTable(
+  'project_resources',
+  {
+    id: text('id').primaryKey(),
+    projectId: text('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    prefix: text('prefix').notNull(),
+    createdAt: integer('created_at', { mode: 'timestamp_ms' })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+      .notNull(),
+  },
+  (table) => [
+    index('project_resource_projectId_idx').on(table.projectId),
+    uniqueIndex('project_resource_project_prefix_unique').on(table.projectId, table.prefix),
+  ],
+);
+
+export const projectRelations = relations(projects, ({ one, many }) => ({
   user: one(users, {
     fields: [projects.userId],
+    references: [users.id],
+  }),
+  resources: many(projectResources),
+}));
+
+export const projectResourceRelations = relations(projectResources, ({ one }) => ({
+  project: one(projects, {
+    fields: [projectResources.projectId],
+    references: [projects.id],
+  }),
+  user: one(users, {
+    fields: [projectResources.userId],
     references: [users.id],
   }),
 }));
@@ -166,3 +199,4 @@ export const projectRelations = relations(projects, ({ one }) => ({
 export type Issue = typeof issues.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type Project = typeof projects.$inferSelect;
+export type ProjectResource = typeof projectResources.$inferSelect;

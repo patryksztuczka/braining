@@ -15,6 +15,7 @@
     {
       "binding": "R2_BUCKET",
       "bucket_name": "obsidian-vault",
+      "remote": true,
     },
   ],
   "compatibility_flags": ["nodejs_compat"],
