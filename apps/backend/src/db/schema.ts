@@ -1,5 +1,5 @@
 import { relations, sql } from 'drizzle-orm';
-import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, index, uniqueIndex } from 'drizzle-orm/sqlite-core';
 
 export const issueStatuses = ['todo', 'in_progress', 'done'] as const;
 
@@ -108,10 +108,31 @@ export const issues = sqliteTable(
   ],
 );
 
+export const projects = sqliteTable(
+  'projects',
+  {
+    id: text('id').primaryKey(),
+    name: text('name').notNull(),
+    key: text('key').notNull(),
+    description: text('description').notNull().default(''),
+    createdAt: integer('created_at', { mode: 'timestamp_ms' })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+      .notNull(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+  },
+  (table) => [
+    index('project_userId_idx').on(table.userId),
+    uniqueIndex('project_user_key_unique').on(table.userId, table.key),
+  ],
+);
+
 export const userRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   accounts: many(accounts),
   issues: many(issues),
+  projects: many(projects),
 }));
 
 export const sessionRelations = relations(sessions, ({ one }) => ({
@@ -135,5 +156,13 @@ export const issueRelations = relations(issues, ({ one }) => ({
   }),
 }));
 
+export const projectRelations = relations(projects, ({ one }) => ({
+  user: one(users, {
+    fields: [projects.userId],
+    references: [users.id],
+  }),
+}));
+
 export type Issue = typeof issues.$inferSelect;
 export type User = typeof users.$inferSelect;
+export type Project = typeof projects.$inferSelect;

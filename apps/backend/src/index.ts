@@ -4,6 +4,7 @@ import { db } from './db/client';
 import { auth } from './lib/auth';
 import { cors } from 'hono/cors';
 import { IssuesRoutes } from './modules/issues/issues-routes';
+import { ProjectsRoutes } from './modules/projects/projects-routes';
 import { ResourcesRoutes } from './modules/resources/resources-routes';
 import { resolveCorsOrigin } from './lib/origins';
 
@@ -28,6 +29,7 @@ app.use(
 app.on(['POST', 'GET'], '/api/auth/*', (c) => auth.handler(c.req.raw));
 
 app.route('/api/issues', new IssuesRoutes().build());
+app.route('/api/projects', new ProjectsRoutes().build());
 app.route('/api/resources', new ResourcesRoutes().build());
 
 app.get('/', async (c) => {
